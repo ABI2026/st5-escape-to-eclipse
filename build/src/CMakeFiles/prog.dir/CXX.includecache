@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/moritz-feik/st-escape-to-eclipse/src/main.cpp
+iostream
+-
+string
+-
+SFML/Graphics.hpp
+-
+

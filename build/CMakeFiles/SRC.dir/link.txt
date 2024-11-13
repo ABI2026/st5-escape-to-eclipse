@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/SRC.dir/src/main.cpp.o  -o SRC 
