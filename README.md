@@ -41,6 +41,10 @@ Folder Structure:
 |    |___ /...
 |    |___ CMakeLists.txt [collection headers and sources]
 |___ /data [local binary database]
+|___ /ressources
+|    |___ /graphics
+|    |___ /sounds
+|    |___ /...
 |___ CMakeLists.txt -> main cmake file
 |___ README.md
 |___ run.sh [Executes cmake configuration, build and executable]
