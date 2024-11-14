@@ -16,3 +16,34 @@ Development Start Date: *01.11.2024*
 **Build Project:** ```cmake --build ./build```
 
 **Raw Run:** ```cd ./build && ./(executable_file)```
+
+### Folder Structure and usage of build generator CMAKE
+---
+Folder Structure:
+```
+|_ ProjectRoot/
+|___ /build
+|    |___ /bin
+|    |   |___ prog (executable)
+|    |___ /externals
+|       |___ /SFML-2.6.1
+|
+|___ /src [Including GameEngine and system relevant includes]
+|    |___ /System
+|    |___ /...
+|    |___ main.cpp
+|    |___ CMakeLists.txt [Assigning all lc/ext includes to main.cpp]
+|
+|___ /lib [Including entities/players/ships/items/ui ect...]
+|    |___ /Entities
+|    |___ /Items
+|    |___ /UI
+|    |___ /...
+|    |___ CMakeLists.txt [collection headers and sources]
+|___ /data [local binary database]
+|___ CMakeLists.txt -> main cmake file
+|___ README.md
+|___ run.sh [Executes cmake configuration, build and executable]
+|___ /...
+
+```
