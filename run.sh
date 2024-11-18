@@ -4,6 +4,6 @@ cmake --build ./build
 
 echo -e "Output: \n----------------------------\n"
 
-./build/bin/prog
+./build/bin/main
 
 echo -e "\n"

@@ -107,23 +107,51 @@ preinstall/fast:
 
 # clear depends
 depend:
+	cd /home/moritz-feik/st-escape-to-eclipse/build && $(CMAKE_COMMAND) -P /home/moritz-feik/st-escape-to-eclipse/build/CMakeFiles/VerifyGlobs.cmake
 	cd /home/moritz-feik/st-escape-to-eclipse/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
-src/CMakeFiles/prog.dir/rule:
-	cd /home/moritz-feik/st-escape-to-eclipse/build && $(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/prog.dir/rule
-.PHONY : src/CMakeFiles/prog.dir/rule
+src/CMakeFiles/local_includes.dir/rule:
+	cd /home/moritz-feik/st-escape-to-eclipse/build && $(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/local_includes.dir/rule
+.PHONY : src/CMakeFiles/local_includes.dir/rule
 
 # Convenience name for target.
-prog: src/CMakeFiles/prog.dir/rule
+local_includes: src/CMakeFiles/local_includes.dir/rule
 
-.PHONY : prog
+.PHONY : local_includes
 
 # fast build rule for target.
-prog/fast:
-	cd /home/moritz-feik/st-escape-to-eclipse/build && $(MAKE) -f src/CMakeFiles/prog.dir/build.make src/CMakeFiles/prog.dir/build
-.PHONY : prog/fast
+local_includes/fast:
+	cd /home/moritz-feik/st-escape-to-eclipse/build && $(MAKE) -f src/CMakeFiles/local_includes.dir/build.make src/CMakeFiles/local_includes.dir/build
+.PHONY : local_includes/fast
+
+System/System.o: System/System.cpp.o
+
+.PHONY : System/System.o
+
+# target to build an object file
+System/System.cpp.o:
+	cd /home/moritz-feik/st-escape-to-eclipse/build && $(MAKE) -f src/CMakeFiles/local_includes.dir/build.make src/CMakeFiles/local_includes.dir/System/System.cpp.o
+.PHONY : System/System.cpp.o
+
+System/System.i: System/System.cpp.i
+
+.PHONY : System/System.i
+
+# target to preprocess a source file
+System/System.cpp.i:
+	cd /home/moritz-feik/st-escape-to-eclipse/build && $(MAKE) -f src/CMakeFiles/local_includes.dir/build.make src/CMakeFiles/local_includes.dir/System/System.cpp.i
+.PHONY : System/System.cpp.i
+
+System/System.s: System/System.cpp.s
+
+.PHONY : System/System.s
+
+# target to generate assembly for a file
+System/System.cpp.s:
+	cd /home/moritz-feik/st-escape-to-eclipse/build && $(MAKE) -f src/CMakeFiles/local_includes.dir/build.make src/CMakeFiles/local_includes.dir/System/System.cpp.s
+.PHONY : System/System.cpp.s
 
 main.o: main.cpp.o
 
@@ -131,7 +159,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	cd /home/moritz-feik/st-escape-to-eclipse/build && $(MAKE) -f src/CMakeFiles/prog.dir/build.make src/CMakeFiles/prog.dir/main.cpp.o
+	cd /home/moritz-feik/st-escape-to-eclipse/build && $(MAKE) -f src/CMakeFiles/local_includes.dir/build.make src/CMakeFiles/local_includes.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -140,7 +168,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	cd /home/moritz-feik/st-escape-to-eclipse/build && $(MAKE) -f src/CMakeFiles/prog.dir/build.make src/CMakeFiles/prog.dir/main.cpp.i
+	cd /home/moritz-feik/st-escape-to-eclipse/build && $(MAKE) -f src/CMakeFiles/local_includes.dir/build.make src/CMakeFiles/local_includes.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -149,7 +177,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	cd /home/moritz-feik/st-escape-to-eclipse/build && $(MAKE) -f src/CMakeFiles/prog.dir/build.make src/CMakeFiles/prog.dir/main.cpp.s
+	cd /home/moritz-feik/st-escape-to-eclipse/build && $(MAKE) -f src/CMakeFiles/local_includes.dir/build.make src/CMakeFiles/local_includes.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 # Help Target
@@ -160,7 +188,10 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... prog"
+	@echo "... local_includes"
+	@echo "... System/System.o"
+	@echo "... System/System.i"
+	@echo "... System/System.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
@@ -175,6 +206,7 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
+	cd /home/moritz-feik/st-escape-to-eclipse/build && $(CMAKE_COMMAND) -P /home/moritz-feik/st-escape-to-eclipse/build/CMakeFiles/VerifyGlobs.cmake
 	cd /home/moritz-feik/st-escape-to-eclipse/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

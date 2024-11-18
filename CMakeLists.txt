@@ -61,6 +61,7 @@ endif()
 
 # Include subdirectories 
 add_subdirectory(src)
+#add_subdirectory(lib)
 
 # Include SFML
 include(FetchContent)
@@ -74,6 +75,8 @@ FetchContent_MakeAvailable(SFML)
 
 add_executable(main src/main.cpp)
 target_link_libraries(main PRIVATE sfml-graphics)
+target_link_libraries(main PRIVATE local_includes)
+#target_link_libraries(main PRIVATE game_lib)
 target_compile_features(main PRIVATE cxx_std_17)
 
 if(WIN32)

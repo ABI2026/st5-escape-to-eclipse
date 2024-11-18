@@ -107,6 +107,7 @@ preinstall/fast:
 
 # clear depends
 depend:
+	$(CMAKE_COMMAND) -P /home/moritz-feik/st-escape-to-eclipse/build/CMakeFiles/VerifyGlobs.cmake
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
@@ -124,17 +125,17 @@ main/fast:
 .PHONY : main/fast
 
 #=============================================================================
-# Target rules for targets named prog
+# Target rules for targets named local_includes
 
 # Build rule for target.
-prog: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 prog
-.PHONY : prog
+local_includes: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 local_includes
+.PHONY : local_includes
 
 # fast build rule for target.
-prog/fast:
-	$(MAKE) -f src/CMakeFiles/prog.dir/build.make src/CMakeFiles/prog.dir/build
-.PHONY : prog/fast
+local_includes/fast:
+	$(MAKE) -f src/CMakeFiles/local_includes.dir/build.make src/CMakeFiles/local_includes.dir/build
+.PHONY : local_includes/fast
 
 src/main.o: src/main.cpp.o
 
@@ -172,7 +173,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... main"
-	@echo "... prog"
+	@echo "... local_includes"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
@@ -187,6 +188,7 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
+	$(CMAKE_COMMAND) -P /home/moritz-feik/st-escape-to-eclipse/build/CMakeFiles/VerifyGlobs.cmake
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

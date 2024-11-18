@@ -8,6 +8,10 @@
 
 ../src/System/System.h
 
+/home/moritz-feik/st-escape-to-eclipse/src/System/System.cpp
+System/System.h
+/home/moritz-feik/st-escape-to-eclipse/src/System/System/System.h
+
 /home/moritz-feik/st-escape-to-eclipse/src/main.cpp
 iostream
 -
