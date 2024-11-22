@@ -139,3 +139,29 @@ After several attempts, the machines hum back to life, and [Ship Name] rises onc
 [Rank]: All hands to battle stations!  
 [Combat Tutorial - Space]  
 [System]: You have completed the tutorial. Good luck saving humanity.
+
+---
+
+**End of the Game:**
+
+You have fully upgraded your engines and power supply, and you are now able to escape our universe through the Eclipse.
+
+[Rank-1] Congratulations, [Rank].
+
+[Rank] You will stay behind to defend the Finals End Station, send a message toward Earth, and modify the incoming ships in the shipyard to ensure their smooth transition.
+
+[Rank-1] But why should I stay behind? Haven't I always served you faithfully, [Rank]?
+
+[Rank] You must ensure humanity's survival, and don't worry—you will follow with the newly modified ships.
+
+[Rank-1] At your command. Thank you, [Rank].
+
+[Rank] See you on the other side, [Rank-1].
+
+[Rank-1] See you on the other side, [Rank].
+
+Then, you board the [Ship Name] and set off into the Eclipse.
+
+**[System] Congratulations, you have completed Escape to Eclipse.**
+
+**End screen.**
