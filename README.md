@@ -24,9 +24,9 @@ Folder Structure:
 |_ ProjectRoot/
 |___ /build
 |    |___ /bin
-|    |   |___ prog (executable)
+|    |    |___ prog (executable)
 |    |___ /externals
-|       |___ /SFML-2.6.1
+|         |___ /SFML-2.6.1
 |
 |___ /src [Including GameEngine and system relevant includes]
 |    |___ /System

@@ -1,3 +1,0 @@
-namespace Test {
-    int test();
-}

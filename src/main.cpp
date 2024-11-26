@@ -1,8 +1,11 @@
 #include <iostream>
 #include <string>
 #include <SFML/Graphics.hpp>
-#include <System/System.h>
+#include "PlanetarySystem/PlanetarySystem.h"
 
 int main() {
-    std::cout << Test::test();
+    PlanetarySpace::InterstellarVec3f* t = new PlanetarySpace::InterstellarVec3f(4, 5, 2);
+    std::cout << t->x;
+    delete t;
+    t = nullptr;
 }

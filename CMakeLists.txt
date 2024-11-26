@@ -60,8 +60,7 @@ if(NOT CMAKE_BUILD_TYPE MATCHES "Debug")
 endif()
 
 # Include subdirectories 
-add_subdirectory(src)
-#add_subdirectory(lib)
+add_subdirectory(lib)
 
 # Include SFML
 include(FetchContent)
@@ -73,11 +72,12 @@ FetchContent_Declare(SFML
     SYSTEM)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(main src/main.cpp)
+add_executable(main ./src/main.cpp)
 target_link_libraries(main PRIVATE sfml-graphics)
-target_link_libraries(main PRIVATE local_includes)
-#target_link_libraries(main PRIVATE game_lib)
+target_link_libraries(main PUBLIC game_lib)
 target_compile_features(main PRIVATE cxx_std_17)
+
+target_include_directories(main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 if(WIN32)
     add_custom_command(
