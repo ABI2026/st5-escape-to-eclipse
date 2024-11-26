@@ -1,6 +1,6 @@
 /home/moritz-feik/st-escape-to-eclipse/build/CMakeFiles/rebuild_cache.dir
 /home/moritz-feik/st-escape-to-eclipse/build/CMakeFiles/edit_cache.dir
 /home/moritz-feik/st-escape-to-eclipse/build/CMakeFiles/main.dir
-/home/moritz-feik/st-escape-to-eclipse/build/src/CMakeFiles/rebuild_cache.dir
-/home/moritz-feik/st-escape-to-eclipse/build/src/CMakeFiles/edit_cache.dir
-/home/moritz-feik/st-escape-to-eclipse/build/src/CMakeFiles/local_includes.dir
+/home/moritz-feik/st-escape-to-eclipse/build/lib/CMakeFiles/rebuild_cache.dir
+/home/moritz-feik/st-escape-to-eclipse/build/lib/CMakeFiles/edit_cache.dir
+/home/moritz-feik/st-escape-to-eclipse/build/lib/CMakeFiles/game_lib.dir

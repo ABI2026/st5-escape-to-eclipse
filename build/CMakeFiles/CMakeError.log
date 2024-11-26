@@ -1,14 +1,14 @@
 Performing C++ SOURCE FILE Test HAS_CFI_FLAG failed with the following output:
 Change Dir: /home/moritz-feik/st-escape-to-eclipse/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_d1a4b/fast && /usr/bin/make -f CMakeFiles/cmTC_d1a4b.dir/build.make CMakeFiles/cmTC_d1a4b.dir/build
+Run Build Command(s):/usr/bin/make cmTC_5a75f/fast && /usr/bin/make -f CMakeFiles/cmTC_5a75f.dir/build.make CMakeFiles/cmTC_5a75f.dir/build
 make[1]: Entering directory '/home/moritz-feik/st-escape-to-eclipse/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_d1a4b.dir/src.cxx.o
-/usr/bin/c++    -DHAS_CFI_FLAG   -fsanitize=cfi -std=gnu++2a -o CMakeFiles/cmTC_d1a4b.dir/src.cxx.o -c /home/moritz-feik/st-escape-to-eclipse/build/CMakeFiles/CMakeTmp/src.cxx
-c++: error: unrecognized argument to '-fsanitize=' option: 'cfi'
-make[1]: *** [CMakeFiles/cmTC_d1a4b.dir/build.make:66: CMakeFiles/cmTC_d1a4b.dir/src.cxx.o] Error 1
+Building CXX object CMakeFiles/cmTC_5a75f.dir/src.cxx.o
+/usr/bin/g++    -DHAS_CFI_FLAG   -fsanitize=cfi -std=gnu++2a -o CMakeFiles/cmTC_5a75f.dir/src.cxx.o -c /home/moritz-feik/st-escape-to-eclipse/build/CMakeFiles/CMakeTmp/src.cxx
+g++: error: unrecognized argument to '-fsanitize=' option: 'cfi'
+make[1]: *** [CMakeFiles/cmTC_5a75f.dir/build.make:66: CMakeFiles/cmTC_5a75f.dir/src.cxx.o] Error 1
 make[1]: Leaving directory '/home/moritz-feik/st-escape-to-eclipse/build/CMakeFiles/CMakeTmp'
-make: *** [Makefile:121: cmTC_d1a4b/fast] Error 2
+make: *** [Makefile:121: cmTC_5a75f/fast] Error 2
 
 
 Source file was:

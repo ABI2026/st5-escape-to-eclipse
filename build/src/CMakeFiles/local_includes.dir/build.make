@@ -60,42 +60,27 @@ include src/CMakeFiles/local_includes.dir/flags.make
 src/CMakeFiles/local_includes.dir/System/System.cpp.o: src/CMakeFiles/local_includes.dir/flags.make
 src/CMakeFiles/local_includes.dir/System/System.cpp.o: ../src/System/System.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/moritz-feik/st-escape-to-eclipse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/local_includes.dir/System/System.cpp.o"
-	cd /home/moritz-feik/st-escape-to-eclipse/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/local_includes.dir/System/System.cpp.o -c /home/moritz-feik/st-escape-to-eclipse/src/System/System.cpp
+	cd /home/moritz-feik/st-escape-to-eclipse/build/src && /usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/local_includes.dir/System/System.cpp.o -c /home/moritz-feik/st-escape-to-eclipse/src/System/System.cpp
 
 src/CMakeFiles/local_includes.dir/System/System.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/local_includes.dir/System/System.cpp.i"
-	cd /home/moritz-feik/st-escape-to-eclipse/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/moritz-feik/st-escape-to-eclipse/src/System/System.cpp > CMakeFiles/local_includes.dir/System/System.cpp.i
+	cd /home/moritz-feik/st-escape-to-eclipse/build/src && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/moritz-feik/st-escape-to-eclipse/src/System/System.cpp > CMakeFiles/local_includes.dir/System/System.cpp.i
 
 src/CMakeFiles/local_includes.dir/System/System.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/local_includes.dir/System/System.cpp.s"
-	cd /home/moritz-feik/st-escape-to-eclipse/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/moritz-feik/st-escape-to-eclipse/src/System/System.cpp -o CMakeFiles/local_includes.dir/System/System.cpp.s
-
-src/CMakeFiles/local_includes.dir/main.cpp.o: src/CMakeFiles/local_includes.dir/flags.make
-src/CMakeFiles/local_includes.dir/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/moritz-feik/st-escape-to-eclipse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/CMakeFiles/local_includes.dir/main.cpp.o"
-	cd /home/moritz-feik/st-escape-to-eclipse/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/local_includes.dir/main.cpp.o -c /home/moritz-feik/st-escape-to-eclipse/src/main.cpp
-
-src/CMakeFiles/local_includes.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/local_includes.dir/main.cpp.i"
-	cd /home/moritz-feik/st-escape-to-eclipse/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/moritz-feik/st-escape-to-eclipse/src/main.cpp > CMakeFiles/local_includes.dir/main.cpp.i
-
-src/CMakeFiles/local_includes.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/local_includes.dir/main.cpp.s"
-	cd /home/moritz-feik/st-escape-to-eclipse/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/moritz-feik/st-escape-to-eclipse/src/main.cpp -o CMakeFiles/local_includes.dir/main.cpp.s
+	cd /home/moritz-feik/st-escape-to-eclipse/build/src && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/moritz-feik/st-escape-to-eclipse/src/System/System.cpp -o CMakeFiles/local_includes.dir/System/System.cpp.s
 
 # Object files for target local_includes
 local_includes_OBJECTS = \
-"CMakeFiles/local_includes.dir/System/System.cpp.o" \
-"CMakeFiles/local_includes.dir/main.cpp.o"
+"CMakeFiles/local_includes.dir/System/System.cpp.o"
 
 # External object files for target local_includes
 local_includes_EXTERNAL_OBJECTS =
 
 lib/liblocal_includes.a: src/CMakeFiles/local_includes.dir/System/System.cpp.o
-lib/liblocal_includes.a: src/CMakeFiles/local_includes.dir/main.cpp.o
 lib/liblocal_includes.a: src/CMakeFiles/local_includes.dir/build.make
 lib/liblocal_includes.a: src/CMakeFiles/local_includes.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/moritz-feik/st-escape-to-eclipse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX static library ../lib/liblocal_includes.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/moritz-feik/st-escape-to-eclipse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library ../lib/liblocal_includes.a"
 	cd /home/moritz-feik/st-escape-to-eclipse/build/src && $(CMAKE_COMMAND) -P CMakeFiles/local_includes.dir/cmake_clean_target.cmake
 	cd /home/moritz-feik/st-escape-to-eclipse/build/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/local_includes.dir/link.txt --verbose=$(VERBOSE)
 

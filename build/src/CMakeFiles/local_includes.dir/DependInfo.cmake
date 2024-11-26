@@ -5,7 +5,6 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/moritz-feik/st-escape-to-eclipse/src/System/System.cpp" "/home/moritz-feik/st-escape-to-eclipse/build/src/CMakeFiles/local_includes.dir/System/System.cpp.o"
-  "/home/moritz-feik/st-escape-to-eclipse/src/main.cpp" "/home/moritz-feik/st-escape-to-eclipse/build/src/CMakeFiles/local_includes.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -17,6 +16,7 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../src"
+  "../src/System"
   )
 
 # Targets to which this target links.

@@ -4,6 +4,3 @@
 src/CMakeFiles/local_includes.dir/System/System.cpp.o: ../src/System/System.h
 src/CMakeFiles/local_includes.dir/System/System.cpp.o: ../src/System/System.cpp
 
-src/CMakeFiles/local_includes.dir/main.cpp.o: ../src/System/System.h
-src/CMakeFiles/local_includes.dir/main.cpp.o: ../src/main.cpp
-

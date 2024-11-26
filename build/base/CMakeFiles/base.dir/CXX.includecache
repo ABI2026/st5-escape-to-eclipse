@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../base/System/System.h
+
+/home/moritz-feik/st-escape-to-eclipse/base/System/System.cpp
+System/System.h
+/home/moritz-feik/st-escape-to-eclipse/base/System/System/System.h
+

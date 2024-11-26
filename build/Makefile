@@ -125,17 +125,17 @@ main/fast:
 .PHONY : main/fast
 
 #=============================================================================
-# Target rules for targets named local_includes
+# Target rules for targets named game_lib
 
 # Build rule for target.
-local_includes: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 local_includes
-.PHONY : local_includes
+game_lib: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 game_lib
+.PHONY : game_lib
 
 # fast build rule for target.
-local_includes/fast:
-	$(MAKE) -f src/CMakeFiles/local_includes.dir/build.make src/CMakeFiles/local_includes.dir/build
-.PHONY : local_includes/fast
+game_lib/fast:
+	$(MAKE) -f lib/CMakeFiles/game_lib.dir/build.make lib/CMakeFiles/game_lib.dir/build
+.PHONY : game_lib/fast
 
 src/main.o: src/main.cpp.o
 
@@ -173,7 +173,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... main"
-	@echo "... local_includes"
+	@echo "... game_lib"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

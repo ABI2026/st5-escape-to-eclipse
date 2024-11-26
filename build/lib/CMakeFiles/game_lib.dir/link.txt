@@ -1,0 +1,2 @@
+/usr/bin/ar qc libgame_lib.a  CMakeFiles/game_lib.dir/PlanetarySystem/PlanetarySystem.cpp.o
+/usr/bin/ranlib libgame_lib.a

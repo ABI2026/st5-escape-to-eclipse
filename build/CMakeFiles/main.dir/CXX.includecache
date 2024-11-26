@@ -6,7 +6,11 @@
 
 #IncludeRegexTransform: 
 
-../src/System/System.h
+../lib/PlanetarySystem/PlanetarySystem.h
+string
+-
+vector
+-
 
 /home/moritz-feik/st-escape-to-eclipse/src/main.cpp
 iostream
@@ -15,6 +19,6 @@ string
 -
 SFML/Graphics.hpp
 -
-System/System.h
--
+PlanetarySystem/PlanetarySystem.h
+/home/moritz-feik/st-escape-to-eclipse/src/PlanetarySystem/PlanetarySystem.h
 
