@@ -50,20 +50,3 @@ Folder Structure:
 
 ```
 
-# Statistics of team members
-### Moritz Feik:
-
-<a href="https://git.io/streak-stats"><img src="https://github-readme-streak-stats.herokuapp.com?user=M0M0F3IK&theme=dark&background=45%2C000000%2C000000" alt="GitHub Streak Moritz Feik" /></a>
-
-### Josef Schmidth:
-
-<a href="https://git.io/streak-stats"><img src="https://github-readme-streak-stats.herokuapp.com?user=zn2plusc&theme=dark&background=45%2C000000%2C000000" alt="GitHub Streak Josef Schmidth" /></a>
-
-### Lennard Helmig:
-
-<a href="https://git.io/streak-stats"><img src="https://github-readme-streak-stats.herokuapp.com?user=Manni2211&theme=dark&background=45%2C000000%2C000000" alt="GitHub Streak Lennard Helmig" /></a>
-
-### Domenik:
-
-<a href="https://git.io/streak-stats"><img src="https://github-readme-streak-stats.herokuapp.com?user=DeusNeptun&theme=dark&background=45%2C000000%2C000000" alt="GitHub Streak Domenik" /></a>
-
