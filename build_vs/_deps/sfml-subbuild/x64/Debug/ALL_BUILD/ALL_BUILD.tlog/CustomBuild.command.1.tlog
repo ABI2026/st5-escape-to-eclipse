@@ -1,0 +1,10 @@
+^C:\USERS\USER\SOURCE\REPOS\ABI2026\ST5-ESCAPE-TO-ECLIPSE\BUILD\_DEPS\SFML-SUBBUILD\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/User/source/repos/ABI2026/st5-escape-to-eclipse/build/_deps/sfml-subbuild -BC:/Users/User/source/repos/ABI2026/st5-escape-to-eclipse/build/_deps/sfml-subbuild --check-stamp-file C:/Users/User/source/repos/ABI2026/st5-escape-to-eclipse/build/_deps/sfml-subbuild/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

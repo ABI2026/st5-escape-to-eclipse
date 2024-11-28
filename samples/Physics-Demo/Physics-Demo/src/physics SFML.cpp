@@ -7,10 +7,10 @@ const int screenWidth = 1920;
 const int screenHeight = 1080;
 
 const float rotationSpeed = 0.4f;  // geschwindigkeit der rotation (grad pro frame)
-const float thrust = 0.09f;        // beschleunigung
-const float boostThrust = 0.03f;   // beschleunigung beim boosten (muss größer als gravitationsstärke sein um entkommen zu können)
+const float thrust = 0.01f;        // beschleunigung
+const float boostThrust = 0.01f;   // beschleunigung beim boosten (muss größer als gravitationsstärke sein um entkommen zu können)
 const float damping = 0.99f;       // dämpfungsfaktor für die geschwindigkeit
-const float gravitationStrength = 0.09f; // stärke der gravitationskraft
+const float gravitationStrength = 0.4f; // stärke der gravitationskraft
 const float starMass = 1000.0f;    // masse des sterns (zur Kraftberechnung)
 const float minDistance = 50.0f;  // mindestabstand um nicht direkt vom Stern abgesogen zu werden
 

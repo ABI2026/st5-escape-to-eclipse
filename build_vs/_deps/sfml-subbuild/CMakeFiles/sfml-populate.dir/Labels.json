@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/Users/User/source/repos/ABI2026/st5-escape-to-eclipse/build/_deps/sfml-subbuild/CMakeFiles/sfml-populate"
+		},
+		{
+			"file" : "C:/Users/User/source/repos/ABI2026/st5-escape-to-eclipse/build/_deps/sfml-subbuild/CMakeFiles/ae0538cbc8062ded87e243f94c59e582/sfml-populate.rule"
+		},
+		{
+			"file" : "C:/Users/User/source/repos/ABI2026/st5-escape-to-eclipse/build/_deps/sfml-subbuild/CMakeFiles/84f702054e557ec05792d02d8d063be0/sfml-populate-complete.rule"
+		},
+		{
+			"file" : "C:/Users/User/source/repos/ABI2026/st5-escape-to-eclipse/build/_deps/sfml-subbuild/CMakeFiles/86ecf4bb8e3ca4e12efba9732b07cf35/sfml-populate-build.rule"
+		},
+		{
+			"file" : "C:/Users/User/source/repos/ABI2026/st5-escape-to-eclipse/build/_deps/sfml-subbuild/CMakeFiles/86ecf4bb8e3ca4e12efba9732b07cf35/sfml-populate-configure.rule"
+		},
+		{
+			"file" : "C:/Users/User/source/repos/ABI2026/st5-escape-to-eclipse/build/_deps/sfml-subbuild/CMakeFiles/86ecf4bb8e3ca4e12efba9732b07cf35/sfml-populate-download.rule"
+		},
+		{
+			"file" : "C:/Users/User/source/repos/ABI2026/st5-escape-to-eclipse/build/_deps/sfml-subbuild/CMakeFiles/86ecf4bb8e3ca4e12efba9732b07cf35/sfml-populate-install.rule"
+		},
+		{
+			"file" : "C:/Users/User/source/repos/ABI2026/st5-escape-to-eclipse/build/_deps/sfml-subbuild/CMakeFiles/86ecf4bb8e3ca4e12efba9732b07cf35/sfml-populate-mkdir.rule"
+		},
+		{
+			"file" : "C:/Users/User/source/repos/ABI2026/st5-escape-to-eclipse/build/_deps/sfml-subbuild/CMakeFiles/86ecf4bb8e3ca4e12efba9732b07cf35/sfml-populate-patch.rule"
+		},
+		{
+			"file" : "C:/Users/User/source/repos/ABI2026/st5-escape-to-eclipse/build/_deps/sfml-subbuild/CMakeFiles/86ecf4bb8e3ca4e12efba9732b07cf35/sfml-populate-test.rule"
+		},
+		{
+			"file" : "C:/Users/User/source/repos/ABI2026/st5-escape-to-eclipse/build/_deps/sfml-subbuild/CMakeFiles/86ecf4bb8e3ca4e12efba9732b07cf35/sfml-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"sfml-populate"
+		],
+		"name" : "sfml-populate"
+	}
+}

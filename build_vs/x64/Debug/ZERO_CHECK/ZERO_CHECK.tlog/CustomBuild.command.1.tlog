@@ -1,0 +1,10 @@
+^C:\USERS\USER\SOURCE\REPOS\ABI2026\ST5-ESCAPE-TO-ECLIPSE\BUILD\CMAKEFILES\C445C792A88AADBA23F4C4FB6C4D389D\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/User/source/repos/ABI2026/st5-escape-to-eclipse -BC:/Users/User/source/repos/ABI2026/st5-escape-to-eclipse/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/User/source/repos/ABI2026/st5-escape-to-eclipse/build/Escape-To-Eclipse.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

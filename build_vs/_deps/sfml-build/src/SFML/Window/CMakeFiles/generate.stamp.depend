@@ -1,0 +1,7 @@
+# CMake generation dependency list for this directory.
+C:/Program Files/CMake/share/cmake-3.30/Modules/FindOpenGL.cmake
+C:/Program Files/CMake/share/cmake-3.30/Modules/FindPackageHandleStandardArgs.cmake
+C:/Program Files/CMake/share/cmake-3.30/Modules/FindPackageMessage.cmake
+C:/Users/User/source/repos/ABI2026/st5-escape-to-eclipse/build/CMakeFiles/cmake.verify_globs
+C:/Users/User/source/repos/ABI2026/st5-escape-to-eclipse/build/_deps/sfml-src/src/SFML/Window/CMakeLists.txt
+C:/Users/User/source/repos/ABI2026/st5-escape-to-eclipse/build/_deps/sfml-src/tools/windows/resource.rc.in
