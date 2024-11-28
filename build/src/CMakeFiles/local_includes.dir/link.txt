@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../lib/liblocal_includes.a  CMakeFiles/local_includes.dir/System/System.cpp.o
-/usr/bin/ranlib ../lib/liblocal_includes.a

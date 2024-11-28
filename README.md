@@ -28,18 +28,16 @@ Folder Structure:
 |    |___ /externals
 |         |___ /SFML-2.6.1
 |
-|___ /src [Including GameEngine and system relevant includes]
-|    |___ /System
+|___ /src [Including GameEngine and system relevant local includes]
 |    |___ /...
 |    |___ main.cpp
-|    |___ CMakeLists.txt [Assigning all lc/ext includes to main.cpp]
 |
 |___ /lib [Including entities/players/ships/items/ui ect...]
 |    |___ /Entities
 |    |___ /Items
 |    |___ /UI
 |    |___ /...
-|    |___ CMakeLists.txt [collection headers and sources]
+|    |___ CMakeLists.txt [add library with recursively collected files]
 |___ /data [local binary database]
 |___ /ressources
 |    |___ /graphics
@@ -51,3 +49,4 @@ Folder Structure:
 |___ /...
 
 ```
+
