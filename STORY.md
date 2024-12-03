@@ -122,8 +122,6 @@ As you step out of your capsule, you stand on a platform with mechanical arms an
 
 Suddenly, a spider-like creature with huge mandibles bursts from beneath you. You dodge with a leap, but the creature charges.  
 
-**[Ground Combat Tutorial]**
-
 After a long fight, you defeat the attacker and continue your search for the crew. You stumble upon a massive alien spaceship graveyard and mark its location, hoping to use parts to repair your ship.
 
 After rescuing your crew, you start burying the fallen, salvaging parts from the wreckage, and repairing the ship. You manage to incorporate some of the alien weaponry into [Ship Name].
@@ -165,3 +163,111 @@ Then, you board the [Ship Name] and set off into the Eclipse.
 **[System] Congratulations, you have completed Escape to Eclipse.**
 
 **End screen.**
+
+---
+---
+**Story Highlights**
+
+First Planet with Resources:
+
+Raw Materials:
+
+- Ores
+
+- Gas
+
+- Crystals
+
+- Food/Water
+
+**Colonized Worlds:**
+
+Additionally, these planets yield:
+
+- Technology/Upgrades
+- Crew Members (Earth only)
+---
+
+**Factions:**
+
+- Humanity (guaranteed in the game)
+- Pirates
+- Trader Consortium
+- Mercenaries
+- Researchers
+ 
+ **Species within these Factions:**
+
+- Insectoids (Hive intelligence)
+- Brudes (Enhanced strength and aggression)
+- Intellects (Known for intelligence and inventiveness)
+- Re Ta Lec (Speak a confusing language, part of the Trader faction)
+- Factions are adversaries and must all be defeated.
+
+Planetary Colonization/Invasion:
+Players can colonize or conquer planets.
+
+---
+**Final Boss:**
+
+- The attacking faction from the start of the game.
+- A highly advanced society (necessary for the endgame upgrades).
+
+**Main Objective: Escape through the Eclipse (an Einstein-Rosen Bridge).**
+
+**Secondary Objectives:**
+
+- Defeat all enemy factions.
+- Fully upgrade your ship to pass through the Eclipse.
+
+**Gameplay Path**
+- Factions are defeated by conquering all their planets.
+- Conquering unlocks resources and new technologies.
+---
+**Player Ship:**
+
+- A single ship type available to the player.
+- Attributes such as:
+  -  weapons
+  -  speed
+  -  shields
+  - armor
+  - command responsiveness
+  - repair speed 
+- can be unlocked and improved through upgrades.
+---
+**Enemy Classes:**
+
+To enhance the gameplay experience, enemies have different classes:
+
+- Tank
+- Damage Dealer
+- Healer
+- Long-range Attacker
+- Short-range Attacker
+- *Each faction has one boss from each class, creating variety in gameplay.*
+---
+**Ship Systems:**
+
+The ship has the following modules that can be upgraded in the dock:
+
+- Bridge
+- Generator
+- Engines
+- Weapon Slots *(weapons can be swapped, always two identical slots)*
+- Factory
+- Quarters
+- Food and Water Recycler
+- Data Center *(housing the ship AI system server)*
+---
+**Main Characters:**
+
+- [Rank] (Player and Captain of the ship)
+
+- [Rank-1] (Second-in-command and Subofficer)
+
+- Dr. Professor Rosenstein (Dock manager and ship upgrade specialist)
+
+- Crew (200 members; 7 die during the tutorial)
+
+*These are the key elements of the story.*
