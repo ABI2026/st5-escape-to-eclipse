@@ -1,4 +1,0 @@
-﻿  physics SFML.cpp
-C:\Users\User\source\repos\ABI2026\st5-escape-to-eclipse\samples\Physics-Demo\Physics-Demo\src\physics SFML.cpp(50,26): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\User\source\repos\ABI2026\st5-escape-to-eclipse\samples\Physics-Demo\Physics-Demo\src\physics SFML.cpp(130,27): warning C4305: '+=': truncation from 'double' to 'float'
-  cpp_sfml-template.vcxproj -> C:\Users\User\source\repos\ABI2026\st5-escape-to-eclipse\samples\Physics-Demo\bin\Debug-windows-x86_64\cpp_sfml-template\cpp_sfml-template.exe

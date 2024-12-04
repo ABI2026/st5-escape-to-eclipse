@@ -1,1 +1,0 @@
-/usr/bin/c++ -flto -fno-fat-lto-objects CMakeFiles/main.dir/src/main.cpp.o -o bin/main  -Wl,-rpath,/home/moritz-feik/st-escape-to-eclipse/build/lib lib/libsfml-graphics.so.2.6.2 lib/libgame_lib.so lib/libsfml-window.so.2.6.2 lib/libsfml-system.so.2.6.2

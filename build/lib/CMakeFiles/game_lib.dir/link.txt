@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC -flto -fno-fat-lto-objects -shared -Wl,-soname,libgame_lib.so -o libgame_lib.so CMakeFiles/game_lib.dir/PlanetarySystem/PlanetarySystem.cpp.o
