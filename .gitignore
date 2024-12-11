@@ -1,3 +1,5 @@
 ﻿################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
+
+./visual-studio-dev/escape-to-eclipse/.vs
