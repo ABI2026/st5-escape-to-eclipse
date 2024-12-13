@@ -1,6 +1,6 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
-
-/visual-studio-dev/escape-to-eclipse/.vs/escape-to-eclipse
+﻿/visual-studio-dev/escape-to-eclipse/.vs/escape-to-eclipse
 /.vs/st5-escape-to-eclipse
+
+/visual-studio-dev/escape-to-eclipse/escape-to-eclipse/externals/SFML-2.6.2
+
+/visual-studio-dev/escape-to-eclipse/x64/Debug/*.dll
