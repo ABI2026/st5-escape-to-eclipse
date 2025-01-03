@@ -10,7 +10,7 @@ namespace DevUtils
 			DynamicArray();
 			~DynamicArray();
 			Type operator[](int indexOf) {
-				if (indexOf > this->m_currentSize) const {
+				if (indexOf > this->m_currentSize) {
 					std::_Xout_of_range("Index is out of range");
 				}
 				return *(m_memory + indexOf);
