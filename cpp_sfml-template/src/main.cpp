@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "Game.h"
+#include "SoundEngine.h"
 
 const int screenWidth = 1920;
 const int screenHeight = 1080;
@@ -10,6 +11,9 @@ int main() {
 
     Game game(window);
     game.run();
+	SoundEngine soundEngine;
+    
+	soundEngine.PlayMusic();
 
     return 0;
 }
