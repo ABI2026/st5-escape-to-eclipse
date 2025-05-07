@@ -159,7 +159,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SoundEngine.cpp" />
+    <ClCompile Include="src\SoundEngine.cpp" />
     <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -169,7 +169,7 @@
     <ClCompile Include="src\SettingsMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SoundEngine.h" />
+    <ClInclude Include="src\SoundEngine.h" />
     <ClInclude Include="src\Button.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\MainMenu.h" />
