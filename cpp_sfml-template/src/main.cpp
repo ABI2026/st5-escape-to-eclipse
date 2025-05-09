@@ -6,14 +6,17 @@ const int screenWidth = 1920;
 const int screenHeight = 1080;
 
 int main() {
+
+    sf::Listener::setGlobalVolume(100.f);// Globale Lautstärke auf 100, audio test
+    SoundEngine soundEngine;
+
     sf::RenderWindow window(sf::VideoMode(screenWidth, screenHeight), "ST5 Escape to Eclipse", sf::Style::Fullscreen);
     window.setFramerateLimit(60);
-
+    soundEngine.PlayMusic();
     Game game(window);
     game.run();
-	SoundEngine soundEngine;
+	
     
-	soundEngine.PlayMusic();
 
     return 0;
 }
