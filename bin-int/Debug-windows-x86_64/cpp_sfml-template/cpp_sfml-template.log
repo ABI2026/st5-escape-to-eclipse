@@ -1,0 +1,3 @@
+﻿  Game.cpp
+C:\Users\Lennard Helmig\game\cpp_sfml-template\src\Game.cpp(190,22): warning C4305: "=": Verkürzung von "double" in "float"
+  cpp_sfml-template.vcxproj -> C:\Users\Lennard Helmig\game\bin\Debug-windows-x86_64\cpp_sfml-template\cpp_sfml-template.exe

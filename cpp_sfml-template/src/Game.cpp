@@ -145,11 +145,23 @@ void Game::handleSettingsMenuInput() {
 }
 
 void Game::initGame() {
-    if (!playerTexture.loadFromFile("Graphics/player.png")) {
-        std::cerr << "Error: Could not load player texture!" << std::endl;
-        state = EXIT;
-        return;
+    std::vector<std::string> textureFiles = {
+    "Graphics/PlayerStand.png",
+    "Graphics/PlayerFlight.png",
+    "Graphics/PlayerShotStand.png",
+    "Graphics/PlayerShotFlight.png"
+    };
+
+    for (size_t i = 0; i < textureFiles.size(); ++i) {
+        if (!playerTextures[i].loadFromFile(textureFiles[i])) {
+            std::cerr << "Error: Could not load " << textureFiles[i] << std::endl;
+            state = EXIT;
+            return;
+        }
     }
+
+    player.setTexture(&playerTextures[0]); // Startbild
+
 
     if (!starTexture.loadFromFile("Graphics/star.png")) {
         std::cerr << "Error: Could not load star texture!" << std::endl;
@@ -160,7 +172,6 @@ void Game::initGame() {
     player.setSize(sf::Vector2f(50, 50));
     player.setOrigin(25, 25);
     player.setPosition(screenWidth / 2 + 200, screenHeight / 2);
-    player.setTexture(&playerTexture);
     player.setRotation(-90);
 
     star.setRadius(50);
@@ -192,10 +203,16 @@ void Game::handleGameplayInput() {
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         playerRotation += rotationSpeed * deltaTime;
+        isMoving = true;
+        updatePlayerTexture(isMoving, isShooting);
+
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         playerRotation -= rotationSpeed * deltaTime;
+        isMoving = true;
+        updatePlayerTexture(isMoving, isShooting);
+
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
@@ -203,7 +220,6 @@ void Game::handleGameplayInput() {
         if (boosting) {
             thrustForce *= boostMultiplier;
         }
-
         velocity.x += thrustForce * sinDeg(playerRotation) * deltaTime;
         velocity.y -= thrustForce * cosDeg(playerRotation) * deltaTime;
 
@@ -211,6 +227,9 @@ void Game::handleGameplayInput() {
             boosting = true;
             boostClock.restart();
         }
+        isMoving = true;
+        updatePlayerTexture(isMoving, isShooting);
+
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
@@ -226,7 +245,11 @@ void Game::handleGameplayInput() {
             boosting = true;
             boostClock.restart();
         }
+        isMoving = false;
+        updatePlayerTexture(isMoving, isShooting);
+
     }
+
 }
 
 void Game::updateGame() {
@@ -301,6 +324,17 @@ void Game::renderGame() {
         sf::Vertex(player.getPosition() + velocity * 10.0f, sf::Color::Yellow)
     };
     window.draw(velocityLine, 2, sf::Lines);
+}
+
+void Game::updatePlayerTexture(bool moving, bool shooting)
+{
+    int index = 0;
+    if (moving && shooting) index = 3;
+    else if (shooting) index = 2;
+    else if (moving) index = 1;
+    else index = 0;
+
+    player.setTexture(&playerTextures[index]);
 }
 
 float Game::sinDeg(float degrees) {

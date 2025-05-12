@@ -5,12 +5,15 @@
 #include "MainMenu.h"
 #include "PauseMenu.h"
 #include "SettingsMenu.h"
+#include <array>
 
 class Game {
 public:
     enum GameState { MAIN_MENU, SETTINGS, GAME_PLAY, GAME_PAUSED, EXIT };
 
 private:
+    bool isMoving;
+    bool isShooting;
     sf::RenderWindow& window;
     GameState state;
 
@@ -22,7 +25,7 @@ private:
     sf::Texture starTexture;
     sf::RectangleShape player;
     sf::CircleShape star;
-
+    std::array<sf::Texture, 4> playerTextures;
     sf::RectangleShape borderRect;
 
     float playerRotation;
@@ -51,6 +54,7 @@ private:
     void handleGameplayInput();
     void updateGame();
     void renderGame();
+    void updatePlayerTexture(bool isMoving, bool isShooting);
 
 public:
     Game(sf::RenderWindow& window);
