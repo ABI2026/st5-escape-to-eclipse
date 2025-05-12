@@ -33,12 +33,12 @@ void SoundEngine::StopMusic()
     music.stop();
 }
 
-void SoundEngine::PlaySound(const char* soundFile)
+void SoundEngine::PlaySound()
 {
 
 }
 
-void SoundEngine::StopSound(const char* soundFile)
+void SoundEngine::StopSound()
 {
 
 }

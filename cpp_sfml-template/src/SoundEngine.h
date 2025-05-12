@@ -8,8 +8,8 @@ public:
 	void Initialize();
 	void PlayMusic();
 	void StopMusic();
-	void PlaySound(const char* soundFile);
-	void StopSound(const char* soundFile);
+	void PlaySound();
+	void StopSound();
 	void SetVolume(float volume);
 	float GetVolume() const;
 

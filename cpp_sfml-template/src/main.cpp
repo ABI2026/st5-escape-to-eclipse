@@ -7,7 +7,7 @@ const int screenHeight = 1080;
 
 int main() {
 
-    sf::Listener::setGlobalVolume(100.f);// Globale Lautstärke auf 100, audio test
+    sf::Listener::setGlobalVolume(75.f);// Globale Lautstärke auf 100, audio test
     SoundEngine soundEngine;
 
     sf::RenderWindow window(sf::VideoMode(screenWidth, screenHeight), "ST5 Escape to Eclipse", sf::Style::Fullscreen);
