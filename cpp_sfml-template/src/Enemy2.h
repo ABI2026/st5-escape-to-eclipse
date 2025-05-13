@@ -3,7 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 
-class Enemy {
+class Enemy 
+{
 public:
     Enemy(const sf::Vector2f& position, const sf::Texture& texture);
 

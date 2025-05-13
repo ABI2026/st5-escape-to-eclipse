@@ -22,31 +22,31 @@ void SoundEngine::PlayMusic()
     {
         std::cout << "Music file loaded successfully." << std::endl;
         music.setLoop(true); // Looped die Musik 
-        music.setVolume(100);
-        music.play();
+        music.setVolume(100); // Lautstärke auf 100
+        music.play(); // play music
     }
     std::cout << "PlayMusic Executed" << std::endl;
 }
 
 void SoundEngine::StopMusic()
 {
-    music.stop();
+    music.stop(); // stop music (selbsterklärend)
 }
 
 void SoundEngine::PlaySound()
 {
-
+	//Play einen sound (Placeholder (copy,paste) für die Struktur von den Soundeffekten)
 }
 
 void SoundEngine::StopSound()
 {
-
+    //Stop einen sound (Placeholder (copy,paste) für die Struktur von den Soundeffekten)
 }
 
 void SoundEngine::SetVolume(float volume)
 {
     std::cout << "Setting volume to: " << volume << std::endl;
-
+	music.setVolume(volume); // Lautstärke setzen durch funktion
     // Here you would typically set the volume in your audio engine
     // For example, if using FMOD:
     // sound->setVolume(volume);
@@ -54,5 +54,5 @@ void SoundEngine::SetVolume(float volume)
 
 float SoundEngine::GetVolume() const
 {
-    return 0.0f;
+    return music.getVolume(); // DIGGA WAS SOLL DIE SCHEI?E KLEINES g -> SFML MUSIC, GROßES G -> SELFMADE CLASS; AUFPASSEN!!!!
 }
