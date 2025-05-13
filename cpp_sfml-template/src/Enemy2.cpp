@@ -1,4 +1,4 @@
-#include "Enemy.h"
+#include "Enemy2.h"
 #include <cmath>
 
 Enemy::Enemy(const sf::Vector2f& position, const sf::Texture& texture)
