@@ -159,7 +159,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Enemy.cpp" />
     <ClCompile Include="src\Enemy2.cpp" />
     <ClCompile Include="src\SoundEngine.cpp" />
     <ClCompile Include="src\Button.cpp" />
@@ -171,7 +170,6 @@
     <ClCompile Include="src\SettingsMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Enemy.h" />
     <ClInclude Include="src\Enemy2.h" />
     <ClInclude Include="src\SoundEngine.h" />
     <ClInclude Include="src\Button.h" />
