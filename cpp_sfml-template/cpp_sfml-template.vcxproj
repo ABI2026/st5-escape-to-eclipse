@@ -170,6 +170,7 @@
     <ClCompile Include="src\SettingsMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
     <ClInclude Include="src\Enemy2.h" />
     <ClInclude Include="src\SoundEngine.h" />
     <ClInclude Include="src\Button.h" />
@@ -178,6 +179,12 @@
     <ClInclude Include="src\Menu.h" />
     <ClInclude Include="src\PauseMenu.h" />
     <ClInclude Include="src\SettingsMenu.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon 256x256.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
