@@ -5,5 +5,3 @@
 
 /visual-studio-dev/escape-to-eclipse/x64/Debug/*.dll
 /.vs
-/bin/Debug-windows-x86_64/cpp_sfml-template
-/bin-int/Debug-windows-x86_64/cpp_sfml-template
