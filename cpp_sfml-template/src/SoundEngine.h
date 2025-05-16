@@ -14,5 +14,5 @@ public:
 	float GetVolume() const;
 
 private:
-	sf::Music music; // Add this member variable to fix the issue  
+	sf::Music music; //musik variable zum spielen von musik
 };

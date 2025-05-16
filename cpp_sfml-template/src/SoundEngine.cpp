@@ -21,7 +21,7 @@ void SoundEngine::PlayMusic()
     else
     {
         std::cout << "Music file loaded successfully." << std::endl;
-        music.setLoop(true); // Looped die Musik 
+        music.setLoop(true); // Looped die Musik, aber nur den jeweiligen Track
         music.setVolume(100); // Lautstärke auf 100
         music.play(); // play music
     }
