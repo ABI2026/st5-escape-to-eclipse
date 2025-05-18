@@ -68,6 +68,10 @@ private:
 
     std::vector<Enemy> enemies;
     sf::Texture enemyTexture;
+
+    sf::Font font;
+    sf::Text gameTimerText;
+    sf::Clock gameTimerClock;
 //    
 //   
 //    bool boosting;

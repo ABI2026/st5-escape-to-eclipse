@@ -166,12 +166,19 @@ void Game::initGame() {
         player.setOrigin(texSize.x / 2.0f, texSize.y / 2.0f);
     }
 
+    if (!font.loadFromFile("Font/QuinqueFive.ttf")) {
+        std::cerr << "Error: Could not load font!" << std::endl;
+        state = EXIT;
+        return;
+    }
 
     if (!starTexture.loadFromFile("Graphics/star.png")) {
         std::cerr << "Error: Could not load star texture!" << std::endl;
         state = EXIT;
         return;
     }
+
+   
 
     if (!bulletTexture.loadFromFile("Graphics/PlayerShot.png")) {
         std::cerr << "Error: Could not load bullet texture!" << std::endl;
@@ -203,6 +210,11 @@ void Game::initGame() {
     borderRect.setFillColor(sf::Color::Transparent);
     borderRect.setOutlineColor(sf::Color(100, 100, 255, 100));
     borderRect.setOutlineThickness(2.0f);
+
+    gameTimerText.setFont(font); 
+	gameTimerText.setCharacterSize(28); // größe Text
+    gameTimerText.setFillColor(sf::Color::White); //weiß ggrrrrrr
+    gameTimerText.setPosition(20.f, 20.f); //oben links
 
     playerRotation = 0;
     objectRotation = 0.1f;
@@ -343,6 +355,15 @@ void Game::updateGame() {
         enemy.update(deltaTime, player.getPosition());
     }
 
+    sf::Time elapsed = gameTimerClock.getElapsedTime();
+    int minutes = static_cast<int>(elapsed.asSeconds()) / 60;
+    int seconds = static_cast<int>(elapsed.asSeconds()) % 60;
+
+    char buffer[16];
+    std::snprintf(buffer, sizeof(buffer), "%02d:%02d", minutes, seconds);
+    gameTimerText.setString(buffer);
+
+
     objectRotation += 30.0f * deltaTime;
     star.setRotation(-objectRotation);
 }
@@ -352,6 +373,7 @@ void Game::renderGame() {
     window.draw(borderRect);
     window.draw(star);
     window.draw(player);
+    window.draw(gameTimerText);
 
     for (const auto& enemy : enemies) {
         enemy.render(window);
