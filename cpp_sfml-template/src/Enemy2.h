@@ -2,6 +2,7 @@
 #define ENEMY_H // DEFINE ENEMY_H
 
 #include <SFML/Graphics.hpp>
+#include"Bullet.h"
 
 class Enemy 
 {
@@ -11,12 +12,15 @@ public:
 
     void update(float deltaTime, const sf::Vector2f& playerPosition);
     void render(sf::RenderWindow& window) const;
-
+    bool canShoot(float deltaTime);
+    Bullet shoot(const sf::Texture& bulletTexture);
+    float shootCooldown = 1.9f;
+    float timeSinceLastShot = 0.1f;
     sf::Vector2f getPosition() const;
-    float getRadius() const;
+    sf::Vector2f getSize() const;
 
 private:
-    sf::CircleShape enemyShape;
+    sf::RectangleShape enemyShape;
     sf::Vector2f velocity;
     float speed;
     float detectionRadius;

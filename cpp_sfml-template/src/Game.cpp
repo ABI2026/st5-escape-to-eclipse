@@ -178,14 +178,18 @@ void Game::initGame() {
         return;
     }
 
-   
+    if (!enemybulletTexture.loadFromFile("Graphics/EnemyShoot.png")) {
+        std::cerr << "Error: Could not load bullet texture!" << std::endl;
+        state = EXIT;
+        return;
+    }
 
     if (!bulletTexture.loadFromFile("Graphics/PlayerShot.png")) {
         std::cerr << "Error: Could not load bullet texture!" << std::endl;
         state = EXIT;
         return;
     }
-    if (!enemyTexture.loadFromFile("Graphics/enemy.png")) {
+    if (!enemyTexture.loadFromFile("Graphics/EnemyFlight.png")) {
         std::cerr << "Error: Could not load enemy texture!" << std::endl;
         state = EXIT;
         return;
@@ -354,6 +358,27 @@ void Game::updateGame() {
     for (auto& enemy : enemies) {
         enemy.update(deltaTime, player.getPosition());
     }
+    for (auto& bullet : bullets) 
+    {
+        bullet.update(deltaTime);
+    }
+    
+    for (Enemy& enemy : enemies) {
+        enemy.update(deltaTime, playerPos);
+
+        if (enemy.canShoot(deltaTime)) {
+            bullets.push_back(enemy.shoot(enemybulletTexture));
+        }
+    }
+
+    for (auto& bullet : bullets) {
+        bullet.update(deltaTime);
+    }
+
+    bullets.erase(std::remove_if(bullets.begin(), bullets.end(),
+        [this](const Bullet& b) {
+            return b.isOffscreen(window.getSize().x, window.getSize().y);
+        }), bullets.end());
 
     sf::Time elapsed = gameTimerClock.getElapsedTime();
     int minutes = static_cast<int>(elapsed.asSeconds()) / 60;

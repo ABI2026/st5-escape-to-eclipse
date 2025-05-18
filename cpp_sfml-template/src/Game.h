@@ -46,6 +46,7 @@ private:
     sf::CircleShape star;
     sf::Texture starTexture;
     sf::Texture bulletTexture;
+    sf::Texture enemybulletTexture;
     std::vector<Bullet> bullets;
     
     sf::Vector2f velocity;

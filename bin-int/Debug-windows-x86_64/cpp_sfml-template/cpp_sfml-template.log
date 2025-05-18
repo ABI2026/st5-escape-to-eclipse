@@ -1,0 +1,9 @@
+﻿  Bullet.cpp
+  Enemy2.cpp
+C:\Users\Lennard Helmig\game\cpp_sfml-template\src\Enemy2.cpp(15,28): warning C4244: "Initialisierung": Konvertierung von "double" in "float", möglicher Datenverlust
+  Game.cpp
+  main.cpp
+  Code wird generiert...
+sfml-window-s-d.lib(JoystickImpl.obj) : warning LNK4099: PDB "" wurde nicht mit "sfml-window-s-d.lib(JoystickImpl.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
+sfml-audio-s-d.lib(SoundSource.obj) : warning LNK4099: PDB "" wurde nicht mit "sfml-audio-s-d.lib(SoundSource.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
+  cpp_sfml-template.vcxproj -> C:\Users\Lennard Helmig\game\bin\Debug-windows-x86_64\cpp_sfml-template\cpp_sfml-template.exe

@@ -4,7 +4,7 @@
 Enemy::Enemy(const sf::Vector2f& position, const sf::Texture& texture)
     : speed(100.0f), detectionRadius(300.0f) 
 {
-    enemyShape.setRadius(25.0f);
+    enemyShape.setSize(sf::Vector2f(75.f, 75.f)); // z.?B. 50x50 Pixel
     enemyShape.setOrigin(25.0f, 25.0f);
     enemyShape.setPosition(position);
     enemyShape.setTexture(&texture);
@@ -39,10 +39,23 @@ sf::Vector2f Enemy::getPosition() const
     return enemyShape.getPosition();
 }
 
-float Enemy::getRadius() const
+sf::Vector2f Enemy::getSize() const 
 {
-    return enemyShape.getRadius();
+    return enemyShape.getSize();
 }
+bool Enemy::canShoot(float deltaTime) {
+    timeSinceLastShot += deltaTime;
+    if (timeSinceLastShot >= shootCooldown) {
+        timeSinceLastShot = 0.0f;
+        return true;
+    }
+    return false;
+}
+
+Bullet Enemy::shoot(const sf::Texture& bulletTexture) {
+    return Bullet(enemyShape.getPosition(), enemyShape.getRotation(), bulletTexture);
+}
+
 
 void Enemy::moveTowardsPlayer(const sf::Vector2f& playerPosition, float deltaTime)
 {
