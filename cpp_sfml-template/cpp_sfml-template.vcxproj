@@ -159,6 +159,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Bullet.cpp" />
     <ClCompile Include="src\Enemy2.cpp" />
     <ClCompile Include="src\SoundEngine.cpp" />
     <ClCompile Include="src\Button.cpp" />
@@ -171,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="src\Bullet.h" />
     <ClInclude Include="src\Enemy2.h" />
     <ClInclude Include="src\SoundEngine.h" />
     <ClInclude Include="src\Button.h" />

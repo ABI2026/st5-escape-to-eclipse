@@ -1,5 +1,7 @@
 #include "Game.h"
+#include"Bullet.h"
 #include <iostream>
+#include <cmath>
 
 const int screenWidth = 1920;
 const int screenHeight = 1080;
@@ -144,12 +146,26 @@ void Game::handleSettingsMenuInput() {
     }
 }
 
+
 void Game::initGame() {
-    if (!playerTexture.loadFromFile("Graphics/player.png")) {
-        std::cerr << "Error: Could not load player texture!" << std::endl;
-        state = EXIT;
-        return;
+    std::vector<std::string> textureFiles = {
+        "Graphics/PlayerStand.png",
+        "Graphics/PlayerFlight.png",
+        "Graphics/PlayerShotStand.png",
+        "Graphics/PlayerShotFlight.png"
+    };
+
+    for (size_t i = 0; i < textureFiles.size(); ++i) {
+        if (!playerTextures[i].loadFromFile(textureFiles[i])) {
+            std::cerr << "Error: Could not load " << textureFiles[i] << std::endl;
+            state = EXIT;
+            return;
+        }
+        player.setTexture(playerTextures[0]);
+        sf::Vector2u texSize = playerTextures[0].getSize();
+        player.setOrigin(texSize.x / 2.0f, texSize.y / 2.0f);
     }
+
 
     if (!starTexture.loadFromFile("Graphics/star.png")) {
         std::cerr << "Error: Could not load star texture!" << std::endl;
@@ -157,10 +173,14 @@ void Game::initGame() {
         return;
     }
 
-    player.setSize(sf::Vector2f(50, 50));
-    player.setOrigin(25, 25);
+    if (!bulletTexture.loadFromFile("Graphics/PlayerShot.png")) {
+        std::cerr << "Error: Could not load bullet texture!" << std::endl;
+        state = EXIT;
+        return;
+    }
+
+
     player.setPosition(screenWidth / 2 + 200, screenHeight / 2);
-    player.setTexture(&playerTexture);
     player.setRotation(-90);
 
     star.setRadius(50);
@@ -176,9 +196,11 @@ void Game::initGame() {
     borderRect.setOutlineThickness(2.0f);
 
     playerRotation = 0;
-    objectRotation = 0.1;
+    objectRotation = 0.1f;
     velocity = sf::Vector2f(0.0f, 0.0f);
     boosting = false;
+    isShooting = false;
+    isMoving = false;
 
     deltaClock.restart();
     deltaTime = 0.0f;
@@ -190,19 +212,22 @@ void Game::handleGameplayInput() {
         return;
     }
 
+    isMoving = false;
+    isShooting = false;
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         playerRotation += rotationSpeed * deltaTime;
+        isMoving = true;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         playerRotation -= rotationSpeed * deltaTime;
+        isMoving = true;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
         float thrustForce = thrust;
-        if (boosting) {
-            thrustForce *= boostMultiplier;
-        }
+        if (boosting) thrustForce *= boostMultiplier;
 
         velocity.x += thrustForce * sinDeg(playerRotation) * deltaTime;
         velocity.y -= thrustForce * cosDeg(playerRotation) * deltaTime;
@@ -211,13 +236,12 @@ void Game::handleGameplayInput() {
             boosting = true;
             boostClock.restart();
         }
+        isMoving = true;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
         float thrustForce = thrust;
-        if (boosting) {
-            thrustForce *= boostMultiplier;
-        }
+        if (boosting) thrustForce *= boostMultiplier;
 
         velocity.x -= thrustForce * sinDeg(playerRotation) * deltaTime;
         velocity.y += thrustForce * cosDeg(playerRotation) * deltaTime;
@@ -226,8 +250,28 @@ void Game::handleGameplayInput() {
             boosting = true;
             boostClock.restart();
         }
+        isMoving = false;
     }
+    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::F) || sf::Keyboard::isKeyPressed(sf::Keyboard::M))) {
+        if (shootCooldownClock.getElapsedTime().asSeconds() >= shootCooldown) {
+            isShooting = true;
+
+            float bulletRotation = player.getRotation();
+            sf::Vector2f bulletPosition = player.getPosition();
+
+            bullets.emplace_back(bulletPosition, bulletRotation, bulletTexture);
+
+            shootCooldownClock.restart(); // Cooldown zurücksetzen
+        }
+    }
+    else {
+        isShooting = false;
+    }
+
+
+    updatePlayerTexture(isMoving, isShooting);
 }
+
 
 void Game::updateGame() {
     deltaTime = deltaClock.restart().asSeconds();
@@ -295,6 +339,9 @@ void Game::renderGame() {
     window.draw(borderRect);
     window.draw(star);
     window.draw(player);
+    for (auto& bullet : bullets) {
+        bullet.render(window);
+    }
 
     sf::Vertex velocityLine[] = {
         sf::Vertex(player.getPosition(), sf::Color::Green),
@@ -302,6 +349,18 @@ void Game::renderGame() {
     };
     window.draw(velocityLine, 2, sf::Lines);
 }
+
+void Game::updatePlayerTexture(bool moving, bool shooting) {
+    int index = 0;
+    if (moving && shooting) index = 3;
+    else if (shooting) index = 2;
+    else if (moving) index = 1;
+
+    player.setTexture(playerTextures[index]);
+    sf::Vector2u texSize = playerTextures[index].getSize();
+    player.setOrigin(texSize.x / 2.0f, texSize.y / 2.0f);
+}
+
 
 float Game::sinDeg(float degrees) {
     return std::sin(degrees * 3.14159f / 180.0f);
