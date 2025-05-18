@@ -17,10 +17,16 @@ void Enemy::update(float deltaTime, const sf::Vector2f& playerPosition)
         std::pow(playerPosition.y - enemyShape.getPosition().y, 2)
     );
 
-    if (distanceToPlayer <= detectionRadius)
-    {
+   // if (distanceToPlayer <= detectionRadius)
+    //{
         moveTowardsPlayer(playerPosition, deltaTime);
-    }
+    //}
+
+    // Calculate angle to player and set rotation
+    sf::Vector2f toPlayer = playerPosition - enemyShape.getPosition();
+    float angleRad = std::atan2(toPlayer.y, toPlayer.x);
+    float angleDeg = angleRad * 180.0f / 3.14159265f;
+    enemyShape.setRotation(angleDeg + 90.0f); // +90 to align "up" with y-axis
 }
 
 void Enemy::render(sf::RenderWindow& window) const
