@@ -6,6 +6,7 @@
 #include "PauseMenu.h"
 #include "SettingsMenu.h"
 #include "Bullet.h"
+#include "Enemy2.h"
 
 
 class Game {
@@ -65,6 +66,8 @@ private:
 
     sf::RectangleShape borderRect;
 
+    std::vector<Enemy> enemies;
+    sf::Texture enemyTexture;
 //    
 //   
 //    bool boosting;

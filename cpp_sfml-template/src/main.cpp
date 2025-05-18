@@ -17,7 +17,7 @@ int main() {
     }
     
 
-    sf::Listener::setGlobalVolume(75.f);// Globale Lautstärke auf 100, audio test
+    sf::Listener::setGlobalVolume(70.f);// Globale Lautstärke auf 100, audio test
 	SoundEngine soundEngine; // SoundEngine initialisieren
 
     sf::RenderWindow window(sf::VideoMode(screenWidth, screenHeight), "ST5 Escape to Eclipse", sf::Style::Fullscreen);

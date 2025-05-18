@@ -178,7 +178,16 @@ void Game::initGame() {
         state = EXIT;
         return;
     }
+    if (!enemyTexture.loadFromFile("Graphics/enemy.png")) {
+        std::cerr << "Error: Could not load enemy texture!" << std::endl;
+        state = EXIT;
+        return;
+    }
 
+    enemies.clear();
+    enemies.emplace_back(sf::Vector2f(400, 400), enemyTexture); // TESTS!!!!!
+    enemies.emplace_back(sf::Vector2f(800, 200), enemyTexture);
+    enemies.emplace_back(sf::Vector2f(1200, 700), enemyTexture);
 
     player.setPosition(screenWidth / 2 + 200, screenHeight / 2);
     player.setRotation(-90);
@@ -330,6 +339,10 @@ void Game::updateGame() {
 
     player.setRotation(playerRotation - 90);
 
+    for (auto& enemy : enemies) {
+        enemy.update(deltaTime, player.getPosition());
+    }
+
     objectRotation += 30.0f * deltaTime;
     star.setRotation(-objectRotation);
 }
@@ -339,6 +352,10 @@ void Game::renderGame() {
     window.draw(borderRect);
     window.draw(star);
     window.draw(player);
+
+    for (const auto& enemy : enemies) {
+        enemy.render(window);
+    }
     for (auto& bullet : bullets) {
         bullet.render(window);
     }
