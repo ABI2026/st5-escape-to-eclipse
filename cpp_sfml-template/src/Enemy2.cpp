@@ -18,15 +18,15 @@ void Enemy::update(float deltaTime, const sf::Vector2f& playerPosition)
     );
 
    // if (distanceToPlayer <= detectionRadius)
-    //{
-        moveTowardsPlayer(playerPosition, deltaTime);
+    //{                 
+        moveTowardsPlayer(playerPosition, deltaTime); // DIGGA WENN ICH MEINEN EIGENEN SCHEIß LESEN KÖNNTE, STUNDEN DIE ICH DAS GESUCHT HABE: 2
     //}
 
     // Calculate angle to player and set rotation
     sf::Vector2f toPlayer = playerPosition - enemyShape.getPosition();
     float angleRad = std::atan2(toPlayer.y, toPlayer.x);
     float angleDeg = angleRad * 180.0f / 3.14159265f;
-    enemyShape.setRotation(angleDeg + 90.0f); // +90 to align "up" with y-axis
+    enemyShape.setRotation(angleDeg); // ROTATION ZUM SPIELER
 }
 
 void Enemy::render(sf::RenderWindow& window) const
