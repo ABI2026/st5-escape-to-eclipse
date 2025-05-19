@@ -43,6 +43,64 @@ void SoundEngine::StopSound()
     //Stop einen sound (Placeholder (copy,paste) für die Struktur von den Soundeffekten)
 }
 
+void SoundEngine::PlayToggleSound()
+{
+    if (!toggleSoundBuffer.loadFromFile("Sound/select-003-337609.ogg"))
+    {
+                std::cerr << "Error: Could not load sound file." << std::endl;
+        return;
+    }
+    else
+    {
+		toggleSound.setBuffer(toggleSoundBuffer); // Setzt den Buffer für den Sound
+        toggleSound.play();
+    }
+}
+
+void SoundEngine::PlayUISelectSound()
+{
+    if (!UISelectSoundBuffer.loadFromFile("Sound/user-interface-click-234656.ogg"))
+    {
+        std::cerr << "Error: Could not load sound file." << std::endl;
+        return;
+    }
+    else
+    {
+        UISelectSound.setBuffer(UISelectSoundBuffer); // Setzt den Buffer für den Sound
+        UISelectSound.play();
+	}
+}
+
+void SoundEngine::PlaySelectSound()
+{
+    if(!selectSoundBuffer.loadFromFile("Sound/video-games-select-337214.ogg"))
+    {
+        std::cerr << "Error: Could not load sound file." << std::endl;
+        return;
+    }
+    else
+    {
+        selectSound.setBuffer(selectSoundBuffer); // Setzt den Buffer für den Sound
+        selectSound.play();
+	}
+}
+
+void SoundEngine::PlayEnemyDeathSound()
+{
+    if (!enemyDeathBuffer.loadFromFile("Sound/explosion-8-bit-8-314694.ogg"))
+    {
+        std::cerr << "Error: Could not load sound file." << std::endl;
+        return;
+    }
+    else
+    {
+        enemyDeath.setBuffer(enemyDeathBuffer); // Setzt den Buffer für den Sound
+        enemyDeath.play();
+	}
+}
+
+
+
 void SoundEngine::SetVolume(float volume)
 {
     std::cout << "Setting volume to: " << volume << std::endl;
@@ -59,6 +117,7 @@ float SoundEngine::GetVolume() const
 
 void SoundEngine::ToggleMusic()
 {
+    PlayToggleSound();
     switch (music.getStatus())
     {
     case sf::Music::Playing:
