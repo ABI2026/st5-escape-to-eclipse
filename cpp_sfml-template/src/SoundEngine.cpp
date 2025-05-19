@@ -13,7 +13,7 @@ SoundEngine::~SoundEngine()
 
 void SoundEngine::PlayMusic()
 {
-    if (!music.openFromFile("Sound/smoke-143172.ogg"))
+    if (!music.openFromFile("Sound/solitude-dark-ambient-electronic-197737.ogg"))
     {
         std::cerr << "Error: Could not load music file." << std::endl;
         return;
