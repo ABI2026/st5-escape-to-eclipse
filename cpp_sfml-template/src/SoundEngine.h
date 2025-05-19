@@ -12,6 +12,7 @@ public:
 	void StopSound();
 	void SetVolume(float volume);
 	float GetVolume() const;
+	void ToggleMusic();
 
 private:
 	sf::Music music; //musik variable zum spielen von musik

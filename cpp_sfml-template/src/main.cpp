@@ -24,10 +24,10 @@ int main() {
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 	window.setFramerateLimit(60); // FPS auf 60 setzen
 	soundEngine.PlayMusic(); // Musik starten
-    Game game(window);
+    Game game(window, soundEngine);
     game.run();
 	
     
-	std::cerr << soundEngine.GetVolume() << " %"; // debug für lautstärke (nur wenn das spiel geschlossen wird)
+	//std::cerr << soundEngine.GetVolume() << " %"; // debug für lautstärke (nur wenn das spiel geschlossen wird)
     return 0;
 }

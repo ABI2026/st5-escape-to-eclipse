@@ -7,13 +7,14 @@
 #include "SettingsMenu.h"
 #include "Bullet.h"
 #include "Enemy2.h"
+#include "SoundEngine.h"
 
 
 class Game {
 public:
     enum GameState { MAIN_MENU, SETTINGS, GAME_PLAY, GAME_PAUSED, EXIT };
 
-    Game(sf::RenderWindow& window);
+    Game(sf::RenderWindow& window, SoundEngine& soundEngine);
     void run();
 
 private:
@@ -30,6 +31,8 @@ private:
     void updatePlayerTexture(bool moving, bool shooting);
     float sinDeg(float degrees);
     float cosDeg(float degrees);
+
+    SoundEngine& soundEngine;
 
     sf::RenderWindow& window;
     GameState state;

@@ -56,3 +56,21 @@ float SoundEngine::GetVolume() const
 {
     return music.getVolume(); // DIGGA WAS SOLL DIE SCHEI?E KLEINES g -> SFML MUSIC, GROßES G -> SELFMADE CLASS; AUFPASSEN!!!!
 }
+
+void SoundEngine::ToggleMusic()
+{
+    switch (music.getStatus())
+    {
+    case sf::Music::Playing:
+        std::cout << "Music is playing. Pausing..." << std::endl;
+        music.pause();
+        break;
+    case sf::Music::Paused:
+    case sf::Music::Stopped:
+        std::cout << "Music is paused/stopped. Resuming..." << std::endl;
+        music.play();
+        break;
+    default:
+        break;
+    }
+}

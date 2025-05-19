@@ -1,5 +1,5 @@
 #include "Game.h"
-#include"Bullet.h"
+#include "Bullet.h"
 #include <iostream>
 #include <cmath>
 
@@ -14,8 +14,9 @@ const float gravitationStrength = 1000.0f;
 const float starMass = 1500.0f;
 const float minDistance = 20.0f;
 
-Game::Game(sf::RenderWindow& window) :
-    window(window),
+Game::Game(sf::RenderWindow& window, SoundEngine& soundEngine)
+    : window(window),
+    soundEngine(soundEngine),
     state(MAIN_MENU),
     mainMenu(window),
     pauseMenu(window),
@@ -293,6 +294,21 @@ void Game::handleGameplayInput() {
         isShooting = false;
     }
 
+
+    static bool nPreviouslyPressed = false; // STATIC BOOL DAMIT MAN N NICHT HALTEN KANN
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::N))
+    {
+        if (!nPreviouslyPressed)
+        {
+            soundEngine.ToggleMusic(); // Assuming you have a SoundEngine instance
+            nPreviouslyPressed = true;
+        }
+    }
+    else
+    {
+        nPreviouslyPressed = false;
+    }
 
     updatePlayerTexture(isMoving, isShooting);
 }
