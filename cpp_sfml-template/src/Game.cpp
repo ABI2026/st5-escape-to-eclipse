@@ -410,8 +410,19 @@ void Game::updateGame() {
     }
 
     // Remove dead enemies
-    enemies.erase(std::remove_if(enemies.begin(), enemies.end(),
-        [](const Enemy& e) { return e.isDead(); }), enemies.end());
+  //  enemies.erase(std::remove_if(enemies.begin(), enemies.end(),
+  //      [](const Enemy& e) { return e.isDead(); }), enemies.end());
+
+	// REMOVE DEAD ENEMIES AND PLAY SOUND, YAY
+    for (auto it = enemies.begin(); it != enemies.end(); ) {
+        if (it->isDead()) {
+            soundEngine.PlayEnemyDeathSound();
+            it = enemies.erase(it);
+        }
+        else {
+            ++it;
+        }
+    }
 
     bullets.erase(std::remove_if(bullets.begin(), bullets.end(),
         [this](const Bullet& b) {
