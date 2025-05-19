@@ -4,7 +4,9 @@
 
 constexpr float BULLET_SPEED = 1000.0f;
 
-Bullet::Bullet(const sf::Vector2f& pos, float rotationDeg, const sf::Texture& texture) {
+Bullet::Bullet(const sf::Vector2f& pos, float rotationDeg, const sf::Texture& texture, BulletOwner owner)
+    : owner(owner)
+{
     shape.setSize(sf::Vector2f(20.f, 25.f)); 
     shape.setOrigin(shape.getSize() / 2.0f);
     shape.setPosition(pos);

@@ -284,7 +284,7 @@ void Game::handleGameplayInput() {
             float bulletRotation = player.getRotation();
             sf::Vector2f bulletPosition = player.getPosition();
 
-            bullets.emplace_back(bulletPosition, bulletRotation, bulletTexture);
+            bullets.emplace_back(bulletPosition, bulletRotation, bulletTexture, BulletOwner::Player);
 
             shootCooldownClock.restart(); // Cooldown zurücksetzen
         }
@@ -368,12 +368,34 @@ void Game::updateGame() {
 
         if (enemy.canShoot(deltaTime)) {
             bullets.push_back(enemy.shoot(enemybulletTexture));
+            bullets.push_back(Bullet(enemy.getPosition(), enemy.getRotation(), enemybulletTexture, BulletOwner::Enemy));
         }
     }
 
     for (auto& bullet : bullets) {
         bullet.update(deltaTime);
     }
+
+    // Handle bullet-enemy collisions
+    for (auto& enemy : enemies) {
+        for (auto& bullet : bullets) {
+            if (bullet.getOwner() == BulletOwner::Player) {
+                if (enemy.getPosition().x < bullet.getShape().getPosition().x + enemy.getSize().x / 2 &&
+                    enemy.getPosition().x + enemy.getSize().x / 2 > bullet.getShape().getPosition().x &&
+                    enemy.getPosition().y < bullet.getShape().getPosition().y + enemy.getSize().y / 2 &&
+                    enemy.getPosition().y + enemy.getSize().y / 2 > bullet.getShape().getPosition().y) {
+                    enemy.takeDamage();
+                    bullet = bullets.back();
+                    bullets.pop_back();
+                    break;
+                }
+            }
+        }
+    }
+
+    // Remove dead enemies
+    enemies.erase(std::remove_if(enemies.begin(), enemies.end(),
+        [](const Enemy& e) { return e.isDead(); }), enemies.end());
 
     bullets.erase(std::remove_if(bullets.begin(), bullets.end(),
         [this](const Bullet& b) {
@@ -387,7 +409,6 @@ void Game::updateGame() {
     char buffer[16];
     std::snprintf(buffer, sizeof(buffer), "%02d:%02d", minutes, seconds);
     gameTimerText.setString(buffer);
-
 
     objectRotation += 30.0f * deltaTime;
     star.setRotation(-objectRotation);

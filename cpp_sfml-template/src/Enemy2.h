@@ -19,11 +19,16 @@ public:
     sf::Vector2f getPosition() const;
     sf::Vector2f getSize() const;
 
+    void takeDamage();
+    bool isDead() const;
+    float getRotation() const;
 private:
     sf::RectangleShape enemyShape;
     sf::Vector2f velocity;
     float speed;
     float detectionRadius;
+
+    int health = 3;
 
     void moveTowardsPlayer(const sf::Vector2f& playerPosition, float deltaTime);
 };
