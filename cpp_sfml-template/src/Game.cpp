@@ -20,7 +20,7 @@ Game::Game(sf::RenderWindow& window, SoundEngine& soundEngine)
     state(MAIN_MENU),
     mainMenu(window),
     pauseMenu(window),
-    settingsMenu(window) {
+    settingsMenu(window, soundEngine) {
 
     initGame();
 }
