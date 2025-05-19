@@ -96,6 +96,9 @@ void Game::render() {
 
 void Game::handleMainMenuInput() {
     int option = mainMenu.handleInput();
+    if (option != MainMenu::NONE) {
+        soundEngine.PlaySelectSound(); // Play sound on any selection
+    }
     switch (option) {
     case MainMenu::START:
         state = GAME_PLAY;
@@ -116,6 +119,10 @@ void Game::handleMainMenuInput() {
 
 void Game::handlePauseMenuInput() {
     int option = pauseMenu.handleInput();
+    if (option != MainMenu::NONE)
+    {
+        soundEngine.PlaySelectSound(); // Play sound on any selection
+    }
     switch (option) {
     case PauseMenu::RESUME:
         state = GAME_PLAY;
@@ -142,6 +149,9 @@ void Game::handlePauseMenuInput() {
 
 void Game::handleSettingsMenuInput() {
     int option = settingsMenu.handleInput();
+    if (option != MainMenu::NONE) {
+        soundEngine.PlaySelectSound(); // Play sound on any selection
+    }
     if (option == SettingsMenu::BACK) {
         state = (state == SETTINGS) ? MAIN_MENU : GAME_PAUSED;
     }
