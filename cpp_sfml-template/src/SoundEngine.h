@@ -8,12 +8,11 @@ public:
 	void Initialize();
 	void PlayMusic();
 	void StopMusic();
-	void PlaySound();
-	void StopSound();
 	void PlayToggleSound();
 	void PlayUISelectSound();
 	void PlaySelectSound();
 	void PlayEnemyDeathSound();
+	void PlayShootSound();
 	void SetVolume(float volume);
 	float GetVolume() const;
 	void ToggleMusic();
@@ -32,4 +31,7 @@ private:
 
 	sf::SoundBuffer enemyDeathBuffer;
 	sf::Sound enemyDeath;
+
+	sf::SoundBuffer shootSoundBuffer;
+	sf::Sound shootSound;
 };

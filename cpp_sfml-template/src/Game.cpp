@@ -300,6 +300,8 @@ void Game::handleGameplayInput() {
 
             bullets.emplace_back(bulletPosition, bulletRotation, bulletTexture, BulletOwner::Player);
 
+            soundEngine.PlayShootSound(); // shoot sounds 
+
             shootCooldownClock.restart(); // Cooldown zurücksetzen
         }
     }
@@ -398,6 +400,7 @@ void Game::updateGame() {
         if (enemy.canShoot(deltaTime)) {
             bullets.push_back(enemy.shoot(enemybulletTexture));
             bullets.push_back(Bullet(enemy.getPosition(), enemy.getRotation(), enemybulletTexture, BulletOwner::Enemy));
+            soundEngine.PlayShootSound(); // shoot sound for enemy
         }
     }
 

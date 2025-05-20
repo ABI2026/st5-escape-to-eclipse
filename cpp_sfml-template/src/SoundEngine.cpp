@@ -4,7 +4,7 @@
 
 SoundEngine::SoundEngine()
 {
-    music.setVolume(100); // Lautstärke auf 100
+    music.setVolume(90); // Lautstärke auf x
 }
 
 SoundEngine::~SoundEngine()
@@ -14,33 +14,30 @@ SoundEngine::~SoundEngine()
 
 void SoundEngine::PlayMusic()
 {
-    if (!music.openFromFile("Sound/solitude-dark-ambient-electronic-197737.ogg"))
+    if (music.getStatus() == sf::Music::Stopped) // Only open and play if music is stopped
     {
-        std::cerr << "Error: Could not load music file." << std::endl;
-        return;
+        if (!music.openFromFile("Sound/solitude-dark-ambient-electronic-197737.ogg"))
+        {
+            std::cerr << "Error: Could not load music file." << std::endl;
+            return;
+        }
+        else
+        {
+            std::cout << "Music file loaded successfully." << std::endl;
+            music.setLoop(true); // looped die musik
+			music.play(); // startet die musik
+        }
+        std::cout << "PlayMusic Executed" << std::endl;
     }
-    else
+    else if (music.getStatus() == sf::Music::Paused) // wenn pausiert, soll dann weiterlaufen
     {
-        std::cout << "Music file loaded successfully." << std::endl;
-        music.setLoop(true); // Looped die Musik, aber nur den jeweiligen Track
-        music.play(); // play music
+        music.play();
     }
-    std::cout << "PlayMusic Executed" << std::endl;
 }
 
 void SoundEngine::StopMusic()
 {
     music.stop(); // stop music (selbsterklärend)
-}
-
-void SoundEngine::PlaySound()
-{
-	//Play einen sound (Placeholder (copy,paste) für die Struktur von den Soundeffekten)
-}
-
-void SoundEngine::StopSound()
-{
-    //Stop einen sound (Placeholder (copy,paste) für die Struktur von den Soundeffekten)
 }
 
 void SoundEngine::PlayToggleSound()
@@ -99,6 +96,19 @@ void SoundEngine::PlayEnemyDeathSound()
 	}
 }
 
+void SoundEngine::PlayShootSound()
+{
+    if (!shootSoundBuffer.loadFromFile("Sound/stab-f-01-brvhrtz-224599.ogg"))
+    {
+        std::cerr << "Error: Could not load sound file." << std::endl;
+        return;
+    }
+    else
+    {
+        shootSound.setBuffer(shootSoundBuffer); // Setzt den Buffer für den Sound
+        shootSound.play();
+    }
+}
 
 
 void SoundEngine::SetVolume(float volume)
