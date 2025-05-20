@@ -1,5 +1,7 @@
 #include "Game.h"
+#include"Bullet.h"
 #include <iostream>
+#include <cmath>
 
 const int screenWidth = 1920;
 const int screenHeight = 1080;
@@ -11,6 +13,8 @@ const float damping = 0.98f;
 const float gravitationStrength = 1000.0f;
 const float starMass = 1500.0f;
 const float minDistance = 20.0f;
+const float bounceDamping = 0.8f;
+const float borderPadding = 50.0f;
 
 Game::Game(sf::RenderWindow& window) :
     window(window),
@@ -42,22 +46,18 @@ void Game::update() {
         mainMenu.update();
         handleMainMenuInput();
         break;
-
     case GAME_PLAY:
         handleGameplayInput();
         updateGame();
         break;
-
     case GAME_PAUSED:
         pauseMenu.update();
         handlePauseMenuInput();
         break;
-
     case SETTINGS:
         settingsMenu.update();
         handleSettingsMenuInput();
         break;
-
     default:
         break;
     }
@@ -69,21 +69,17 @@ void Game::render() {
         window.clear(sf::Color(30, 30, 30));
         mainMenu.render();
         break;
-
     case GAME_PLAY:
         renderGame();
         break;
-
     case GAME_PAUSED:
         renderGame();
         pauseMenu.render();
         break;
-
     case SETTINGS:
         window.clear(sf::Color(30, 30, 30));
         settingsMenu.render();
         break;
-
     default:
         break;
     }
@@ -97,15 +93,12 @@ void Game::handleMainMenuInput() {
     case MainMenu::START:
         state = GAME_PLAY;
         break;
-
     case MainMenu::SETTINGS:
         state = SETTINGS;
         break;
-
     case MainMenu::EXIT:
         state = EXIT;
         break;
-
     default:
         break;
     }
@@ -118,20 +111,16 @@ void Game::handlePauseMenuInput() {
         state = GAME_PLAY;
         deltaClock.restart();
         break;
-
     case PauseMenu::SETTINGS:
         state = SETTINGS;
         break;
-
     case PauseMenu::MAIN_MENU:
         state = MAIN_MENU;
         initGame();
         break;
-
     case PauseMenu::EXIT:
         state = EXIT;
         break;
-
     default:
         break;
     }
@@ -145,22 +134,39 @@ void Game::handleSettingsMenuInput() {
 }
 
 void Game::initGame() {
-    if (!playerTexture.loadFromFile("Graphics/player.png")) {
-        std::cerr << "Error: Could not load player texture!" << std::endl;
-        state = EXIT;
-        return;
+    std::vector<std::string> textureFiles = {
+        "Graphics/PlayerStand.png",
+        "Graphics/PlayerFlight.png",
+        "Graphics/PlayerShotStand.png",
+        "Graphics/PlayerShotFlight.png"
+    };
+
+    for (size_t i = 0; i < textureFiles.size(); ++i) {
+        if (!playerTextures[i].loadFromFile(textureFiles[i])) {
+            std::cerr << "Error: Could not load " << textureFiles[i] << std::endl;
+            state = EXIT;
+            return;
+        }
+        player.setTexture(playerTextures[0]);
+        sf::Vector2u texSize = playerTextures[0].getSize();
+        player.setOrigin(texSize.x / 2.0f, texSize.y / 2.0f);
     }
+
 
     if (!starTexture.loadFromFile("Graphics/star.png")) {
         std::cerr << "Error: Could not load star texture!" << std::endl;
         state = EXIT;
         return;
     }
+    
+    if (!bulletTexture.loadFromFile("Graphics/PlayerShot.png")) {
+        std::cerr << "Error: Could not load bullet texture!" << std::endl;
+        state = EXIT;
+        return;
+    }
 
-    player.setSize(sf::Vector2f(50, 50));
-    player.setOrigin(25, 25);
+
     player.setPosition(screenWidth / 2 + 200, screenHeight / 2);
-    player.setTexture(&playerTexture);
     player.setRotation(-90);
 
     star.setRadius(50);
@@ -176,9 +182,11 @@ void Game::initGame() {
     borderRect.setOutlineThickness(2.0f);
 
     playerRotation = 0;
-    objectRotation = 0.1;
+    objectRotation = 0.1f;
     velocity = sf::Vector2f(0.0f, 0.0f);
     boosting = false;
+    isShooting = false;
+    isMoving = false;
 
     deltaClock.restart();
     deltaTime = 0.0f;
@@ -190,19 +198,22 @@ void Game::handleGameplayInput() {
         return;
     }
 
+    isMoving = false;
+    isShooting = false;
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         playerRotation += rotationSpeed * deltaTime;
+        isMoving = true;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         playerRotation -= rotationSpeed * deltaTime;
+        isMoving = true;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
         float thrustForce = thrust;
-        if (boosting) {
-            thrustForce *= boostMultiplier;
-        }
+        if (boosting) thrustForce *= boostMultiplier;
 
         velocity.x += thrustForce * sinDeg(playerRotation) * deltaTime;
         velocity.y -= thrustForce * cosDeg(playerRotation) * deltaTime;
@@ -211,13 +222,12 @@ void Game::handleGameplayInput() {
             boosting = true;
             boostClock.restart();
         }
+        isMoving = true;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
         float thrustForce = thrust;
-        if (boosting) {
-            thrustForce *= boostMultiplier;
-        }
+        if (boosting) thrustForce *= boostMultiplier;
 
         velocity.x -= thrustForce * sinDeg(playerRotation) * deltaTime;
         velocity.y += thrustForce * cosDeg(playerRotation) * deltaTime;
@@ -226,13 +236,32 @@ void Game::handleGameplayInput() {
             boosting = true;
             boostClock.restart();
         }
+        isMoving = false;
     }
+    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::F) || sf::Keyboard::isKeyPressed(sf::Keyboard::M))) {
+        if (shootCooldownClock.getElapsedTime().asSeconds() >= shootCooldown) {
+            isShooting = true;
+
+            float bulletRotation = player.getRotation();
+            sf::Vector2f bulletPosition = player.getPosition();
+
+            bullets.emplace_back(bulletPosition, bulletRotation, bulletTexture);
+
+            shootCooldownClock.restart(); // Cooldown zurücksetzen
+        }
+    }
+    else {
+        isShooting = false;
+    }
+
+
+    updatePlayerTexture(isMoving, isShooting);
 }
 
 void Game::updateGame() {
     deltaTime = deltaClock.restart().asSeconds();
 
-    if (boosting && boostClock.getElapsedTime().asSeconds() > 0.5) {
+    if (boosting && boostClock.getElapsedTime().asSeconds() > 0.5f) {
         boosting = false;
     }
 
@@ -280,6 +309,7 @@ void Game::updateGame() {
         velocity.y = -velocity.y * bounceDamping;
         bounced = true;
     }
+
     if (bounced) {
         playerRotation += (velocity.x > 0 ? 5 : -5) * deltaTime;
     }
@@ -288,6 +318,17 @@ void Game::updateGame() {
 
     objectRotation += 30.0f * deltaTime;
     star.setRotation(-objectRotation);
+    
+    for (auto it = bullets.begin(); it != bullets.end();) {
+        it->update(deltaTime);
+        if (it->isOffscreen(screenWidth, screenHeight)) {
+            it = bullets.erase(it);
+        }
+        else {
+            ++it;
+        }
+    }
+
 }
 
 void Game::renderGame() {
@@ -295,6 +336,10 @@ void Game::renderGame() {
     window.draw(borderRect);
     window.draw(star);
     window.draw(player);
+    for (auto& bullet : bullets) {
+        bullet.render(window);
+    }
+
 
     sf::Vertex velocityLine[] = {
         sf::Vertex(player.getPosition(), sf::Color::Green),
@@ -303,10 +348,22 @@ void Game::renderGame() {
     window.draw(velocityLine, 2, sf::Lines);
 }
 
+void Game::updatePlayerTexture(bool moving, bool shooting) {
+    int index = 0;
+    if (moving && shooting) index = 3;
+    else if (shooting) index = 2;
+    else if (moving) index = 1;
+
+    player.setTexture(playerTextures[index]);
+    sf::Vector2u texSize = playerTextures[index].getSize();
+    player.setOrigin(texSize.x / 2.0f, texSize.y / 2.0f);
+}
+
+
 float Game::sinDeg(float degrees) {
-    return std::sin(degrees * 3.14159f / 180.0f);
+    return std::sin(degrees * 3.14159265f / 180.0f);
 }
 
 float Game::cosDeg(float degrees) {
-    return std::cos(degrees * 3.14159f / 180.0f);
+    return std::cos(degrees * 3.14159265f / 180.0f);
 }
