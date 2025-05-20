@@ -58,7 +58,7 @@ void SettingsMenu::render() {
     );
     window.draw(titleText);
 
-    // Optionally, show current volume
+    //show current volume
     sf::Text volumeText;
     volumeText.setFont(font);
     volumeText.setString("Volume: " + std::to_string((int)soundEngine.GetVolume()));
@@ -77,11 +77,11 @@ int SettingsMenu::handleInput() {
     }
     if (buttons[1]->isClicked()) {
         float vol = soundEngine.GetVolume();
-        soundEngine.SetVolume(std::max(0.0f, vol - 5.0f));
+        soundEngine.SetVolume(std::max(0.0f, vol - 1.0f));
     }
     if (buttons[2]->isClicked()) {
         float vol = soundEngine.GetVolume();
-        soundEngine.SetVolume(std::min(100.0f, vol + 5.0f));
+        soundEngine.SetVolume(std::min(100.0f, vol + 1.0f));
     }
     if (buttons[3]->isClicked()) {
         soundEngine.PlayMusic();
