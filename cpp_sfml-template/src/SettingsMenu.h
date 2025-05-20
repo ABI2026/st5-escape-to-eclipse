@@ -2,7 +2,7 @@
 #define SETTINGSMENU_H  
 
 #include "Menu.h"  
-#include "SoundEngine.h" // Include SoundEngine header  
+#include "SoundEngine.h"
 
 class SettingsMenu : public Menu {  
 public:  
@@ -14,7 +14,7 @@ public:
     int handleInput() override;  
 
 private:  
-    SoundEngine& soundEngine; // Add SoundEngine reference as a member  
+    SoundEngine& soundEngine; // SoundEngine reference as a member  
 };  
 
 #endif

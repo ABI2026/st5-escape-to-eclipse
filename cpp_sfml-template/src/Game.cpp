@@ -408,7 +408,7 @@ void Game::updateGame() {
         bullet.update(deltaTime);
     }
 
-    // Enemy spawn logic
+    // enemy spawn logic
     if (currentWave <= maxWaves && waveSpawnClock.getElapsedTime().asSeconds() >= waveInterval)
     {
         for (int i = 0; i < currentWave; ++i) {
@@ -422,14 +422,18 @@ void Game::updateGame() {
         waveSpawnClock.restart();
     }
 
-    // Handle bullet-enemy collisions
-    for (auto& enemy : enemies) {
-        for (auto& bullet : bullets) {
-            if (bullet.getOwner() == BulletOwner::Player) {
+    //bullet-enemy collisions
+    for (auto& enemy : enemies)
+    {
+        for (auto& bullet : bullets)
+        {
+            if (bullet.getOwner() == BulletOwner::Player)
+            {
                 if (enemy.getPosition().x < bullet.getShape().getPosition().x + enemy.getSize().x / 2 &&
                     enemy.getPosition().x + enemy.getSize().x / 2 > bullet.getShape().getPosition().x &&
                     enemy.getPosition().y < bullet.getShape().getPosition().y + enemy.getSize().y / 2 &&
-                    enemy.getPosition().y + enemy.getSize().y / 2 > bullet.getShape().getPosition().y) {
+                    enemy.getPosition().y + enemy.getSize().y / 2 > bullet.getShape().getPosition().y)
+                {
                     enemy.takeDamage();
                     bullet = bullets.back();
                     bullets.pop_back();
