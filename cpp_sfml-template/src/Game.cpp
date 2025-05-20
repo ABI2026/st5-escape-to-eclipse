@@ -14,6 +14,9 @@ const float gravitationStrength = 1000.0f;
 const float starMass = 1500.0f;
 const float minDistance = 20.0f;
 
+sf::Clock enemySpawnClock;
+float enemySpawnInterval = 25.0f; // spawn interval der gegner
+
 Game::Game(sf::RenderWindow& window, SoundEngine& soundEngine)
     : window(window),
     soundEngine(soundEngine),
@@ -207,9 +210,10 @@ void Game::initGame() {
     }
 
     enemies.clear();
-    enemies.emplace_back(sf::Vector2f(400, 400), enemyTexture); // TESTS!!!!!
+    enemies.emplace_back(sf::Vector2f(400, 400), enemyTexture); // START ENEMIES
     enemies.emplace_back(sf::Vector2f(800, 200), enemyTexture);
     enemies.emplace_back(sf::Vector2f(1200, 700), enemyTexture);
+    enemySpawnClock.restart();
 
     player.setPosition(screenWidth / 2 + 200, screenHeight / 2);
     player.setRotation(-90);
@@ -400,6 +404,14 @@ void Game::updateGame() {
 
     for (auto& bullet : bullets) {
         bullet.update(deltaTime);
+    }
+
+    // Enemy spawn logic
+    if (enemySpawnClock.getElapsedTime().asSeconds() >= enemySpawnInterval) {
+        // Example spawn position, you can randomize this as needed
+        sf::Vector2f spawnPos(100 + std::rand() % (screenWidth - 200), 100 + std::rand() % (screenHeight - 200));
+        enemies.emplace_back(spawnPos, enemyTexture);
+        enemySpawnClock.restart();
     }
 
     // Handle bullet-enemy collisions
