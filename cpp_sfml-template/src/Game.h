@@ -76,6 +76,11 @@ private:
     sf::Font font;
     sf::Text gameTimerText;
     sf::Clock gameTimerClock;
+
+    int currentWave = 1;
+    const int maxWaves = 7;
+    sf::Clock waveSpawnClock;
+    float waveInterval = 19.0f;
 //    
 //   
 //    bool boosting;

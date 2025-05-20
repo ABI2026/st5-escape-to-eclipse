@@ -14,8 +14,6 @@ const float gravitationStrength = 1000.0f;
 const float starMass = 1500.0f;
 const float minDistance = 20.0f;
 
-sf::Clock enemySpawnClock;
-float enemySpawnInterval = 25.0f; // spawn interval der gegner
 
 Game::Game(sf::RenderWindow& window, SoundEngine& soundEngine)
     : window(window),
@@ -213,7 +211,8 @@ void Game::initGame() {
     enemies.emplace_back(sf::Vector2f(400, 400), enemyTexture); // START ENEMIES
     enemies.emplace_back(sf::Vector2f(800, 200), enemyTexture);
     enemies.emplace_back(sf::Vector2f(1200, 700), enemyTexture);
-    enemySpawnClock.restart();
+    currentWave = 1;
+    waveSpawnClock.restart();
 
     player.setPosition(screenWidth / 2 + 200, screenHeight / 2);
     player.setRotation(-90);
@@ -407,11 +406,17 @@ void Game::updateGame() {
     }
 
     // Enemy spawn logic
-    if (enemySpawnClock.getElapsedTime().asSeconds() >= enemySpawnInterval) {
-        // Example spawn position, you can randomize this as needed
-        sf::Vector2f spawnPos(100 + std::rand() % (screenWidth - 200), 100 + std::rand() % (screenHeight - 200));
-        enemies.emplace_back(spawnPos, enemyTexture);
-        enemySpawnClock.restart();
+    if (currentWave <= maxWaves && waveSpawnClock.getElapsedTime().asSeconds() >= waveInterval)
+    {
+        for (int i = 0; i < currentWave; ++i) {
+            sf::Vector2f spawnPos(
+                100 + std::rand() % (screenWidth - 200),
+                100 + std::rand() % (screenHeight - 200)
+            );
+            enemies.emplace_back(spawnPos, enemyTexture);
+        }
+        ++currentWave;
+        waveSpawnClock.restart();
     }
 
     // Handle bullet-enemy collisions
