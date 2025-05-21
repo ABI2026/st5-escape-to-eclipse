@@ -236,6 +236,13 @@ void Game::initGame() {
     waveCounterText.setOrigin(textRect.width, 0); // right align
     waveCounterText.setPosition(window.getSize().x-40 - margin, margin);
     
+    enemyCounterText.setFont(font);
+    enemyCounterText.setCharacterSize(24);
+    enemyCounterText.setFillColor(sf::Color::White);
+    enemyCounterText.setString("Enemies: 0");
+    sf::FloatRect enemyTextRect = enemyCounterText.getLocalBounds();
+    enemyCounterText.setOrigin(enemyTextRect.width, 0);
+    enemyCounterText.setPosition(waveCounterText.getPosition().x, waveCounterText.getPosition().y + waveCounterText.getCharacterSize() + 8.f);     // Position it just below the wave counter
 
     playerRotation = 0;
     objectRotation = 0.1f;
@@ -584,6 +591,12 @@ void Game::updateGame() {
 
     objectRotation += 30.0f * deltaTime;
     star.setRotation(-objectRotation);
+
+    // Update enemy counter text
+    enemyCounterText.setString("Enemies: " + std::to_string(enemies.size()));
+    sf::FloatRect enemyTextRect = enemyCounterText.getLocalBounds();
+    enemyCounterText.setOrigin(enemyTextRect.width, 0);
+    enemyCounterText.setPosition(waveCounterText.getPosition().x, waveCounterText.getPosition().y + waveCounterText.getCharacterSize() + 8.f);
 }
 
 void Game::renderGame() {
@@ -592,6 +605,7 @@ void Game::renderGame() {
     window.draw(player);
     window.draw(gameTimerText);
     window.draw(waveCounterText);
+    window.draw(enemyCounterText);
 
 	if (endlessModeActive) // display endless mode text if active
     {

@@ -90,6 +90,8 @@ private:
 
     std::vector<Planet> planets; // Declare planets as a vector of Planet objects
     std::vector<Obstacle> obstacles;
+
+    sf::Text enemyCounterText;
 //    
 //   
 //    bool boosting;
