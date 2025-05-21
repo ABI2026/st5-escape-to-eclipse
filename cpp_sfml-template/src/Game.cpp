@@ -325,6 +325,31 @@ void Game::handleGameplayInput() {
         nPreviouslyPressed = false;
     }
 
+    // --- block for endless mode ---
+    static bool ePreviouslyPressed = false; // damit man net halten kann nh
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+    {
+       
+        if (!ePreviouslyPressed && currentWave > maxWaves) // only allow endless respawn after the last wave
+        {
+            for (int i = 0; i < maxWaves; ++i) {
+                sf::Vector2f spawnPos(
+                    100 + std::rand() % (screenWidth - 200),
+                    100 + std::rand() % (screenHeight - 200)
+                );
+                enemies.emplace_back(spawnPos, enemyTexture);
+            }
+            waveSpawnClock.restart(); //reset wave timer
+            endlessModeActive = true;
+            ePreviouslyPressed = true;
+        }
+    } 
+    else 
+    {
+    ePreviouslyPressed = false;
+    }
+    // --- endless mode block ---
+
     updatePlayerTexture(isMoving, isShooting);
 }
 
@@ -481,6 +506,19 @@ void Game::renderGame() {
     window.draw(star);
     window.draw(player);
     window.draw(gameTimerText);
+
+	if (endlessModeActive) // display endless mode text if active
+    {
+        sf::Text endlessText;
+        endlessText.setFont(font);
+        endlessText.setString("Endless Mode Activated");
+        endlessText.setCharacterSize(24);
+        endlessText.setFillColor(sf::Color::Red);
+        endlessText.setPosition(20.f, 60.f); // Just below the timer
+        window.draw(endlessText);
+    }
+
+
 
     for (const auto& enemy : enemies) {
         enemy.render(window);

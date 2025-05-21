@@ -81,6 +81,7 @@ private:
     const int maxWaves = 7;
     sf::Clock waveSpawnClock;
     float waveInterval = 19.0f;
+    bool endlessModeActive = false; // für den output unterm timer
 //    
 //   
 //    bool boosting;
