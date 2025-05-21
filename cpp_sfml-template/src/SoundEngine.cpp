@@ -110,6 +110,20 @@ void SoundEngine::PlayShootSound()
     }
 }
 
+void SoundEngine::PlayEnemyWaveSound()
+{
+    if (!enemyWaveBuffer.loadFromFile("Sound/traimory-mega-horn-angry-siren-f-cinematic-trailer-sound-effects-193408.ogg"))
+    {
+        std::cerr << "Error: Could not load sound file." << std::endl;
+        return;
+    }
+    else
+    {
+        enemyWave.setBuffer(enemyWaveBuffer); // Setzt den Buffer für den Sound
+        enemyWave.play();
+    }
+}
+
 
 void SoundEngine::SetVolume(float volume)
 {

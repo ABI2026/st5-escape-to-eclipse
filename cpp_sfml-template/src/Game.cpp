@@ -448,6 +448,7 @@ void Game::updateGame() {
         }
         ++currentWave;
         waveCounterText.setString("Wave " + std::to_string(currentWave));
+        soundEngine.PlayEnemyWaveSound();
         waveSpawnClock.restart();
     }
 
@@ -459,6 +460,7 @@ void Game::updateGame() {
             );
             enemies.emplace_back(spawnPos, enemyTexture);
         }
+        soundEngine.PlayEnemyWaveSound();
         ++currentWave;
         waveCounterText.setString("Wave " + std::to_string(currentWave));
         waveSpawnClock.restart();

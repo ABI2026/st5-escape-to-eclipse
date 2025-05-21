@@ -13,6 +13,7 @@ public:
 	void PlaySelectSound();
 	void PlayEnemyDeathSound();
 	void PlayShootSound();
+	void PlayEnemyWaveSound();
 	void SetVolume(float volume);
 	float GetVolume() const;
 	void ToggleMusic();
@@ -34,4 +35,7 @@ private:
 
 	sf::SoundBuffer shootSoundBuffer;
 	sf::Sound shootSound;
+
+	sf::SoundBuffer enemyWaveBuffer;
+	sf::Sound enemyWave;
 };
