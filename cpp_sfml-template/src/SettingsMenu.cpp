@@ -21,13 +21,13 @@ SettingsMenu::SettingsMenu(sf::RenderWindow& window, SoundEngine& soundEngine)
 
     // Volume - button
     buttons.push_back(std::make_unique<Button>(
-        buttonX - spacing, buttonY - 2 * spacing, buttonWidth / 2, buttonHeight, font, "- Vol",
+        buttonX - spacing, buttonY - 2 * spacing, buttonWidth / 2, buttonHeight, font, "-Vol",
         sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200)
     ));
 
     // Volume + button
     buttons.push_back(std::make_unique<Button>(
-        buttonX + buttonWidth / 2 + spacing, buttonY - 2 * spacing, buttonWidth / 2, buttonHeight, font, "+ Vol",
+        buttonX + buttonWidth / 2 + spacing, buttonY - 2 * spacing, buttonWidth / 2, buttonHeight, font, "+Vol",
         sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200)
     ));
 
@@ -39,7 +39,7 @@ SettingsMenu::SettingsMenu(sf::RenderWindow& window, SoundEngine& soundEngine)
 
     // Pause button
     buttons.push_back(std::make_unique<Button>(
-        buttonX*1.1, buttonY - spacing, buttonWidth / 2, buttonHeight, font, "Pause",
+        buttonX*1.067, buttonY - spacing, buttonWidth / 1.5, buttonHeight, font, "Pause",
         sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200)
     ));
 }
