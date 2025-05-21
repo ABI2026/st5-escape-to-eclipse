@@ -1,9 +1,12 @@
 #include "Game.h"
-#include "Bullet.h"
+#include"Bullet.h"
 #include <iostream>
 #include <cmath>
+#include "Planet.h"
+#include "Obstacle.h"
+#include "WaveManager.h"
 
-const int screenWidth = 1920;
+const int screenWidth = 1920; 
 const int screenHeight = 1080;
 
 const float rotationSpeed = 180.0f;
@@ -13,6 +16,8 @@ const float damping = 0.98f;
 const float gravitationStrength = 1000.0f;
 const float starMass = 1500.0f;
 const float minDistance = 20.0f;
+const float bounceDamping = 0.8f;
+const float borderPadding = 50.0f;
 
 
 Game::Game(sf::RenderWindow& window, SoundEngine& soundEngine)
@@ -46,22 +51,18 @@ void Game::update() {
         mainMenu.update();
         handleMainMenuInput();
         break;
-
     case GAME_PLAY:
         handleGameplayInput();
         updateGame();
         break;
-
     case GAME_PAUSED:
         pauseMenu.update();
         handlePauseMenuInput();
         break;
-
     case SETTINGS:
         settingsMenu.update();
         handleSettingsMenuInput();
         break;
-
     default:
         break;
     }
@@ -73,21 +74,19 @@ void Game::render() {
         window.clear(sf::Color(30, 30, 30));
         mainMenu.render();
         break;
-
     case GAME_PLAY:
+        window.clear();
         renderGame();
         break;
-
     case GAME_PAUSED:
+        window.clear();
         renderGame();
         pauseMenu.render();
         break;
-
     case SETTINGS:
         window.clear(sf::Color(30, 30, 30));
         settingsMenu.render();
         break;
-
     default:
         break;
     }
@@ -104,15 +103,12 @@ void Game::handleMainMenuInput() {
     case MainMenu::START:
         state = GAME_PLAY;
         break;
-
     case MainMenu::SETTINGS:
         state = SETTINGS;
         break;
-
     case MainMenu::EXIT:
         state = EXIT;
         break;
-
     default:
         break;
     }
@@ -129,20 +125,16 @@ void Game::handlePauseMenuInput() {
         state = GAME_PLAY;
         deltaClock.restart();
         break;
-
     case PauseMenu::SETTINGS:
         state = SETTINGS;
         break;
-
     case PauseMenu::MAIN_MENU:
         state = MAIN_MENU;
         initGame();
         break;
-
     case PauseMenu::EXIT:
         state = EXIT;
         break;
-
     default:
         break;
     }
@@ -184,10 +176,16 @@ void Game::initGame() {
         return;
     }
 
-    if (!starTexture.loadFromFile("Graphics/star.png")) {
-        std::cerr << "Error: Could not load star texture!" << std::endl;
-        state = EXIT;
-        return;
+    player.setTexture(playerTextures[0]);
+    player.setOrigin(playerTextures[0].getSize().x / 2.0f, playerTextures[0].getSize().y / 2.0f);
+
+    font.loadFromFile("Font/QuinqueFive.ttf");
+    starTexture.loadFromFile("Graphics/star.png");
+    bulletTexture.loadFromFile("Graphics/PlayerShot.png");
+    enemybulletTexture.loadFromFile("Graphics/EnemyShoot.png");
+    if (!enemyTexture.loadFromFile("Graphics/EnemyFlight.png")) {
+        std::cerr << "Error: Could not load enemy texture" << std::endl;
+        state = EXIT; return;
     }
 
     if (!enemybulletTexture.loadFromFile("Graphics/EnemyShoot.png")) {
@@ -219,19 +217,19 @@ void Game::initGame() {
 
     star.setRadius(50);
     star.setOrigin(50, 50);
-    starPos = sf::Vector2f(screenWidth / 2, screenHeight / 2);
-    star.setPosition(starPos);
+    star.setPosition(screenWidth / 2, screenHeight / 2);
     star.setTexture(&starTexture);
+    starPos = star.getPosition();
 
-    borderRect.setSize(sf::Vector2f(screenWidth - 2 * borderPadding, screenHeight - 2 * borderPadding));
-    borderRect.setPosition(borderPadding, borderPadding);
+    borderRect.setSize(sf::Vector2f(screenWidth - 20, screenHeight - 20));
+    borderRect.setPosition(10, 10);
     borderRect.setFillColor(sf::Color::Transparent);
     borderRect.setOutlineColor(sf::Color(100, 100, 255, 100));
     borderRect.setOutlineThickness(2.0f);
 
     gameTimerText.setFont(font); 
-	gameTimerText.setCharacterSize(28); // gr��e Text
-    gameTimerText.setFillColor(sf::Color::White); //wei� ggrrrrrr
+	gameTimerText.setCharacterSize(28); // größe Text
+    gameTimerText.setFillColor(sf::Color::White); //weiß ggrrrrrr
     gameTimerText.setPosition(20.f, 20.f); //oben links
 
     waveCounterText.setFont(font);
@@ -251,8 +249,35 @@ void Game::initGame() {
     isShooting = false;
     isMoving = false;
 
+
+    planets = {
+        { sf::Vector2f(960, 540), 3000.0f, 70.0f, starTexture },
+        { sf::Vector2f(300, 300), 2000.0f, 60.0f, starTexture },
+        { sf::Vector2f(1600, 800), 2500.0f, 65.0f, starTexture }
+    };
+    obstacles = {
+        { sf::Vector2f(500, 500), sf::Vector2f(100, 100) },
+        { sf::Vector2f(1000, 300), sf::Vector2f(80, 120) },
+        { sf::Vector2f(1400, 700), sf::Vector2f(150, 50) }
+    };
+
+    waveManager = WaveManager();
+    waveManager.addWave(Wave({
+        { 0.f, sf::Vector2f(400, 400), 0 },
+        { 2.f, sf::Vector2f(800, 200), 0 },
+        { 4.f, sf::Vector2f(1200, 700), 0 },
+        }));
+
+    enemies.clear();
+    currentWave = 1;
+    waveSpawnClock.restart();
+
+    playerRotation = 0;
+    objectRotation = 0.1f;
+    velocity = sf::Vector2f(0.f, 0.f);
+    boosting = isMoving = isShooting = false;
     deltaClock.restart();
-    deltaTime = 0.0f;
+    deltaTime = 0.f;
 }
 
 void Game::handleGameplayInput() {
@@ -307,12 +332,11 @@ void Game::handleGameplayInput() {
 
             float bulletRotation = player.getRotation();
             sf::Vector2f bulletPosition = player.getPosition();
-
             bullets.emplace_back(bulletPosition, bulletRotation, bulletTexture, BulletOwner::Player);
 
             soundEngine.PlayShootSound(); // shoot sounds 
 
-            shootCooldownClock.restart(); // Cooldown zur�cksetzen
+            shootCooldownClock.restart(); // Cooldown zurücksetzen
         }
     }
     else {
@@ -360,9 +384,65 @@ void Game::handleGameplayInput() {
 void Game::updateGame() {
     deltaTime = deltaClock.restart().asSeconds();
 
-    if (boosting && boostClock.getElapsedTime().asSeconds() > 0.5) {
+    if (boosting && boostClock.getElapsedTime().asSeconds() > 0.5f) {
         boosting = false;
     }
+
+    sf::Vector2f totalGravity(0.f, 0.f);
+    for (const auto& planet : planets) {
+        totalGravity += planet.calculateGravity(player.getPosition()) * deltaTime;
+    }
+    velocity += totalGravity;
+
+    if (currentWave <= maxWaves && waveSpawnClock.getElapsedTime().asSeconds() >= waveInterval) {
+        for (int i = 0; i < currentWave; ++i) {
+            sf::Vector2f spawnPos(
+                100 + std::rand() % (screenWidth - 200),
+                100 + std::rand() % (screenHeight - 200)
+            );
+            enemies.push_back(std::make_unique<Enemy>(spawnPos, enemyTexture));
+        }
+        ++currentWave;
+        waveSpawnClock.restart();
+    }
+
+
+
+    for (const auto& obstacle : obstacles) {
+        if (obstacle.checkCollision(player.getGlobalBounds())) {
+            // Berechne Überschneidung (Überlappungsbereich)
+            sf::FloatRect playerBounds = player.getGlobalBounds();
+            sf::FloatRect obstacleBounds = obstacle.getBounds();
+
+            // Wie tief ist die Überschneidung in x und y?
+            float overlapLeft = (playerBounds.left + playerBounds.width) - obstacleBounds.left;
+            float overlapRight = (obstacleBounds.left + obstacleBounds.width) - playerBounds.left;
+            float overlapTop = (playerBounds.top + playerBounds.height) - obstacleBounds.top;
+            float overlapBottom = (obstacleBounds.top + obstacleBounds.height) - playerBounds.top;
+
+            // Kleinste Überschneidung in x und y finden (für Push-out Richtung)
+            float minOverlapX = (overlapLeft < overlapRight) ? overlapLeft : -overlapRight;
+            float minOverlapY = (overlapTop < overlapBottom) ? overlapTop : -overlapBottom;
+
+            // Korrigiere die Position entlang der Richtung mit dem kleineren Überlappungswert
+            if (std::abs(minOverlapX) < std::abs(minOverlapY)) {
+                // Korrigiere horizontal
+                player.move(-minOverlapX, 0);
+                velocity.x = -velocity.x * bounceDamping;  // Bounce horizontal
+            }
+            else {
+                // Korrigiere vertikal
+                player.move(0, -minOverlapY);
+                velocity.y = -velocity.y * bounceDamping;  // Bounce vertikal
+            }
+        }
+    }
+
+
+    // Update Wellenlogik
+    waveManager.update(deltaTime, enemies, enemyTexture);
+
+
 
     velocity *= damping;
 
@@ -408,6 +488,7 @@ void Game::updateGame() {
         velocity.y = -velocity.y * bounceDamping;
         bounced = true;
     }
+
     if (bounced) {
         playerRotation += (velocity.x > 0 ? 5 : -5) * deltaTime;
     }
@@ -520,7 +601,6 @@ void Game::updateGame() {
 }
 
 void Game::renderGame() {
-    window.clear(sf::Color(10, 10, 30));
     window.draw(borderRect);
     window.draw(star);
     window.draw(player);
@@ -546,6 +626,11 @@ void Game::renderGame() {
     for (auto& bullet : bullets) {
         bullet.render(window);
     }
+    for (auto& planet : planets)
+        planet.render(window);
+
+    for (auto& obstacle : obstacles)
+        obstacle.render(window);
 
     sf::Vertex velocityLine[] = {
         sf::Vertex(player.getPosition(), sf::Color::Green),
@@ -567,9 +652,9 @@ void Game::updatePlayerTexture(bool moving, bool shooting) {
 
 
 float Game::sinDeg(float degrees) {
-    return std::sin(degrees * 3.14159f / 180.0f);
+    return std::sin(degrees * 3.14159265f / 180.0f);
 }
 
 float Game::cosDeg(float degrees) {
-    return std::cos(degrees * 3.14159f / 180.0f);
+    return std::cos(degrees * 3.14159265f / 180.0f);
 }

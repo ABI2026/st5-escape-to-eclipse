@@ -1,3 +1,5 @@
+// Game.h
+
 #ifndef GAME_H
 #define GAME_H
 
@@ -6,19 +8,22 @@
 #include "PauseMenu.h"
 #include "SettingsMenu.h"
 #include "Bullet.h"
+
 #include "Enemy2.h"
 #include "SoundEngine.h"
 
-
 class Game {
 public:
-    enum GameState { MAIN_MENU, SETTINGS, GAME_PLAY, GAME_PAUSED, EXIT };
+    enum GameState { MAIN_MENU, GAME_PLAY, GAME_PAUSED, SETTINGS, EXIT };
+
+    Game(sf::RenderWindow& window);
+    void run();
 
     Game(sf::RenderWindow& window, SoundEngine& soundEngine);
     void run();
 
 private:
-
+ 
     void update();
     void render();
     void initGame();
@@ -32,8 +37,9 @@ private:
     float sinDeg(float degrees);
     float cosDeg(float degrees);
 
-    SoundEngine& soundEngine;
 
+    SoundEngine& soundEngine;
+ 
     sf::RenderWindow& window;
     GameState state;
     sf::Clock shootCooldownClock;
@@ -45,7 +51,6 @@ private:
 
     sf::Sprite player;
     sf::Texture playerTextures[4];
-
     sf::CircleShape star;
     sf::Texture starTexture;
     sf::Texture bulletTexture;
@@ -55,8 +60,8 @@ private:
     sf::Vector2f velocity;
     sf::Vector2f starPos;
 
-    sf::Clock boostClock;
     sf::Clock deltaClock;
+    sf::Clock boostClock;
     float deltaTime;
     float playerRotation;
     float objectRotation;
@@ -81,7 +86,7 @@ private:
     const int maxWaves = 7;
     sf::Clock waveSpawnClock;
     float waveInterval = 15.0f;
-    bool endlessModeActive = false; // für den output unterm timer
+    bool endlessModeActive = false; // fï¿½r den output unterm timer
     sf::Text waveCounterText;
 //    
 //   
@@ -113,6 +118,7 @@ private:
 //    
 //    
 //    
+
 };
 
 #endif
