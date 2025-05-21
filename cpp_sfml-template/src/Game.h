@@ -8,16 +8,15 @@
 #include "PauseMenu.h"
 #include "SettingsMenu.h"
 #include "Bullet.h"
-
 #include "Enemy2.h"
 #include "SoundEngine.h"
+#include "Obstacle.h"
+#include "Planet.h"
+#include "WaveManager.h"
 
 class Game {
 public:
     enum GameState { MAIN_MENU, GAME_PLAY, GAME_PAUSED, SETTINGS, EXIT };
-
-    Game(sf::RenderWindow& window);
-    void run();
 
     Game(sf::RenderWindow& window, SoundEngine& soundEngine);
     void run();
@@ -88,6 +87,9 @@ private:
     float waveInterval = 15.0f;
     bool endlessModeActive = false; // f�r den output unterm timer
     sf::Text waveCounterText;
+
+    std::vector<Planet> planets; // Declare planets as a vector of Planet objects
+    std::vector<Obstacle> obstacles;
 //    
 //   
 //    bool boosting;

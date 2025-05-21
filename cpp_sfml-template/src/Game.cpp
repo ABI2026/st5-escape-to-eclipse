@@ -205,12 +205,7 @@ void Game::initGame() {
         return;
     }
 
-    enemies.clear();
-    enemies.emplace_back(sf::Vector2f(400, 400), enemyTexture); // START ENEMIES
-    enemies.emplace_back(sf::Vector2f(800, 200), enemyTexture);
-    enemies.emplace_back(sf::Vector2f(1200, 700), enemyTexture);
-    currentWave = 1;
-    waveSpawnClock.restart();
+    
 
     player.setPosition(screenWidth / 2 + 200, screenHeight / 2);
     player.setRotation(-90);
@@ -261,16 +256,20 @@ void Game::initGame() {
         { sf::Vector2f(1400, 700), sf::Vector2f(150, 50) }
     };
 
-    waveManager = WaveManager();
+    /*waveManager = WaveManager();
     waveManager.addWave(Wave({
         { 0.f, sf::Vector2f(400, 400), 0 },
         { 2.f, sf::Vector2f(800, 200), 0 },
         { 4.f, sf::Vector2f(1200, 700), 0 },
-        }));
+        }));*/
 
     enemies.clear();
+    enemies.emplace_back(sf::Vector2f(400, 400), enemyTexture); // START ENEMIES
+    enemies.emplace_back(sf::Vector2f(800, 200), enemyTexture);
+    enemies.emplace_back(sf::Vector2f(1200, 700), enemyTexture);
     currentWave = 1;
     waveSpawnClock.restart();
+
 
     playerRotation = 0;
     objectRotation = 0.1f;
@@ -394,19 +393,6 @@ void Game::updateGame() {
     }
     velocity += totalGravity;
 
-    if (currentWave <= maxWaves && waveSpawnClock.getElapsedTime().asSeconds() >= waveInterval) {
-        for (int i = 0; i < currentWave; ++i) {
-            sf::Vector2f spawnPos(
-                100 + std::rand() % (screenWidth - 200),
-                100 + std::rand() % (screenHeight - 200)
-            );
-            enemies.push_back(std::make_unique<Enemy>(spawnPos, enemyTexture));
-        }
-        ++currentWave;
-        waveSpawnClock.restart();
-    }
-
-
 
     for (const auto& obstacle : obstacles) {
         if (obstacle.checkCollision(player.getGlobalBounds())) {
@@ -440,7 +426,7 @@ void Game::updateGame() {
 
 
     // Update Wellenlogik
-    waveManager.update(deltaTime, enemies, enemyTexture);
+    //waveManager.update(deltaTime, enemies, enemyTexture);
 
 
 

@@ -161,6 +161,8 @@
   <ItemGroup>
     <ClCompile Include="src\Bullet.cpp" />
     <ClCompile Include="src\Enemy2.cpp" />
+    <ClCompile Include="src\Obstacle.cpp" />
+    <ClCompile Include="src\Planet.cpp" />
     <ClCompile Include="src\SoundEngine.cpp" />
     <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\Game.cpp" />
@@ -169,11 +171,14 @@
     <ClCompile Include="src\Menu.cpp" />
     <ClCompile Include="src\PauseMenu.cpp" />
     <ClCompile Include="src\SettingsMenu.cpp" />
+    <ClCompile Include="src\WaveManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\Bullet.h" />
     <ClInclude Include="src\Enemy2.h" />
+    <ClInclude Include="src\Obstacle.h" />
+    <ClInclude Include="src\Planet.h" />
     <ClInclude Include="src\SoundEngine.h" />
     <ClInclude Include="src\Button.h" />
     <ClInclude Include="src\Game.h" />
@@ -181,6 +186,7 @@
     <ClInclude Include="src\Menu.h" />
     <ClInclude Include="src\PauseMenu.h" />
     <ClInclude Include="src\SettingsMenu.h" />
+    <ClInclude Include="src\WaveManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
