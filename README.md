@@ -11,6 +11,9 @@ F/M: Shooting
 
 N: Play/Pause Music (In-Game)
 
+E: Endless Mode
+(Beat all 7 Waves first!)
+
 ### Prerequisites: 
 
 OpenAL: https://www.openal.org/downloads/oalinst.zip
