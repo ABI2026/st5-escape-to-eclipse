@@ -4,8 +4,6 @@
 /visual-studio-dev/escape-to-eclipse/escape-to-eclipse/externals/SFML-2.6.2
 
 /visual-studio-dev/escape-to-eclipse/x64/Debug/*.dll
-<<<<<<< HEAD
-/.vs/cpp_sfml-template
-=======
 /.vs
->>>>>>> bf608bc6d298f66bdcf69211b5292482c893bb56
+/bin/Debug-windows-x86_64/cpp_sfml-template/cpp_sfml-template.exe
+/bin/Debug-windows-x86_64/cpp_sfml-template/cpp_sfml-template.pdb

@@ -19,12 +19,14 @@ const float minDistance = 20.0f;
 const float bounceDamping = 0.8f;
 const float borderPadding = 50.0f;
 
-Game::Game(sf::RenderWindow& window) :
-    window(window),
+
+Game::Game(sf::RenderWindow& window, SoundEngine& soundEngine)
+    : window(window),
+    soundEngine(soundEngine),
     state(MAIN_MENU),
     mainMenu(window),
     pauseMenu(window),
-    settingsMenu(window) {
+    settingsMenu(window, soundEngine) {
 
     initGame();
 }
@@ -94,6 +96,9 @@ void Game::render() {
 
 void Game::handleMainMenuInput() {
     int option = mainMenu.handleInput();
+    if (option != MainMenu::NONE) {
+        soundEngine.PlaySelectSound(); // Play sound on any selection
+    }
     switch (option) {
     case MainMenu::START:
         state = GAME_PLAY;
@@ -111,6 +116,10 @@ void Game::handleMainMenuInput() {
 
 void Game::handlePauseMenuInput() {
     int option = pauseMenu.handleInput();
+    if (option != MainMenu::NONE)
+    {
+        soundEngine.PlaySelectSound(); // Play sound on any selection
+    }
     switch (option) {
     case PauseMenu::RESUME:
         state = GAME_PLAY;
@@ -133,22 +142,38 @@ void Game::handlePauseMenuInput() {
 
 void Game::handleSettingsMenuInput() {
     int option = settingsMenu.handleInput();
+    if (option != MainMenu::NONE) {
+        soundEngine.PlaySelectSound(); // Play sound on any selection
+    }
     if (option == SettingsMenu::BACK) {
         state = (state == SETTINGS) ? MAIN_MENU : GAME_PAUSED;
     }
 }
 
+
 void Game::initGame() {
     std::vector<std::string> textureFiles = {
-        "Graphics/PlayerStand.png", "Graphics/PlayerFlight.png",
-        "Graphics/PlayerShotStand.png", "Graphics/PlayerShotFlight.png"
+        "Graphics/PlayerStand.png",
+        "Graphics/PlayerFlight.png",
+        "Graphics/PlayerShotStand.png",
+        "Graphics/PlayerShotFlight.png"
     };
 
     for (size_t i = 0; i < textureFiles.size(); ++i) {
         if (!playerTextures[i].loadFromFile(textureFiles[i])) {
             std::cerr << "Error: Could not load " << textureFiles[i] << std::endl;
-            state = EXIT; return;
+            state = EXIT;
+            return;
         }
+        player.setTexture(playerTextures[0]);
+        sf::Vector2u texSize = playerTextures[0].getSize();
+        player.setOrigin(texSize.x / 2.0f, texSize.y / 2.0f);
+    }
+
+    if (!font.loadFromFile("Font/QuinqueFive.ttf")) {
+        std::cerr << "Error: Could not load font!" << std::endl;
+        state = EXIT;
+        return;
     }
 
     player.setTexture(playerTextures[0]);
@@ -163,6 +188,29 @@ void Game::initGame() {
         state = EXIT; return;
     }
 
+    if (!enemybulletTexture.loadFromFile("Graphics/EnemyShoot.png")) {
+        std::cerr << "Error: Could not load bullet texture!" << std::endl;
+        state = EXIT;
+        return;
+    }
+
+    if (!bulletTexture.loadFromFile("Graphics/PlayerShot.png")) {
+        std::cerr << "Error: Could not load bullet texture!" << std::endl;
+        state = EXIT;
+        return;
+    }
+    if (!enemyTexture.loadFromFile("Graphics/EnemyFlight.png")) {
+        std::cerr << "Error: Could not load enemy texture!" << std::endl;
+        state = EXIT;
+        return;
+    }
+
+    enemies.clear();
+    enemies.emplace_back(sf::Vector2f(400, 400), enemyTexture); // START ENEMIES
+    enemies.emplace_back(sf::Vector2f(800, 200), enemyTexture);
+    enemies.emplace_back(sf::Vector2f(1200, 700), enemyTexture);
+    currentWave = 1;
+    waveSpawnClock.restart();
 
     player.setPosition(screenWidth / 2 + 200, screenHeight / 2);
     player.setRotation(-90);
@@ -179,10 +227,28 @@ void Game::initGame() {
     borderRect.setOutlineColor(sf::Color(100, 100, 255, 100));
     borderRect.setOutlineThickness(2.0f);
 
-    gameTimerText.setFont(font);
-    gameTimerText.setCharacterSize(28);
-    gameTimerText.setFillColor(sf::Color::White);
-    gameTimerText.setPosition(20.f, 20.f);
+    gameTimerText.setFont(font); 
+	gameTimerText.setCharacterSize(28); // grÃ¶ÃŸe Text
+    gameTimerText.setFillColor(sf::Color::White); //weiÃŸ ggrrrrrr
+    gameTimerText.setPosition(20.f, 20.f); //oben links
+
+    waveCounterText.setFont(font);
+    waveCounterText.setCharacterSize(28);
+    waveCounterText.setFillColor(sf::Color::White);
+    waveCounterText.setString("Wave 1");
+    float margin = 20.f;
+    sf::FloatRect textRect = waveCounterText.getLocalBounds();
+    waveCounterText.setOrigin(textRect.width, 0); // right align
+    waveCounterText.setPosition(window.getSize().x-40 - margin, margin);
+    
+
+    playerRotation = 0;
+    objectRotation = 0.1f;
+    velocity = sf::Vector2f(0.0f, 0.0f);
+    boosting = false;
+    isShooting = false;
+    isMoving = false;
+
 
     planets = {
         { sf::Vector2f(960, 540), 3000.0f, 70.0f, starTexture },
@@ -266,10 +332,11 @@ void Game::handleGameplayInput() {
 
             float bulletRotation = player.getRotation();
             sf::Vector2f bulletPosition = player.getPosition();
+            bullets.emplace_back(bulletPosition, bulletRotation, bulletTexture, BulletOwner::Player);
 
-            bullets.emplace_back(bulletPosition, bulletRotation, bulletTexture);
+            soundEngine.PlayShootSound(); // shoot sounds 
 
-            shootCooldownClock.restart(); // Cooldown zurücksetzen
+            shootCooldownClock.restart(); // Cooldown zurÃ¼cksetzen
         }
     }
     else {
@@ -277,8 +344,42 @@ void Game::handleGameplayInput() {
     }
 
 
+    static bool nPreviouslyPressed = false; // STATIC BOOL DAMIT MAN N NICHT HALTEN KANN
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::N))
+    {
+        if (!nPreviouslyPressed)
+        {
+            soundEngine.ToggleMusic(); // Assuming you have a SoundEngine instance
+            nPreviouslyPressed = true;
+        }
+    }
+    else
+    {
+        nPreviouslyPressed = false;
+    }
+
+
+    // --- block for endless mode activation ---
+    static bool ePreviouslyPressed = false;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+    {
+        if (!ePreviouslyPressed && currentWave > maxWaves && !endlessModeActive)
+        {
+            endlessModeActive = true;
+            waveSpawnClock.restart(); // reset timer for next endless wave
+            ePreviouslyPressed = true;
+        }
+    }
+    else
+    {
+        ePreviouslyPressed = false;
+    }
+    // --- end block ---
+
     updatePlayerTexture(isMoving, isShooting);
 }
+
 
 void Game::updateGame() {
     deltaTime = deltaClock.restart().asSeconds();
@@ -309,21 +410,21 @@ void Game::updateGame() {
 
     for (const auto& obstacle : obstacles) {
         if (obstacle.checkCollision(player.getGlobalBounds())) {
-            // Berechne Überschneidung (Überlappungsbereich)
+            // Berechne Ãœberschneidung (Ãœberlappungsbereich)
             sf::FloatRect playerBounds = player.getGlobalBounds();
             sf::FloatRect obstacleBounds = obstacle.getBounds();
 
-            // Wie tief ist die Überschneidung in x und y?
+            // Wie tief ist die Ãœberschneidung in x und y?
             float overlapLeft = (playerBounds.left + playerBounds.width) - obstacleBounds.left;
             float overlapRight = (obstacleBounds.left + obstacleBounds.width) - playerBounds.left;
             float overlapTop = (playerBounds.top + playerBounds.height) - obstacleBounds.top;
             float overlapBottom = (obstacleBounds.top + obstacleBounds.height) - playerBounds.top;
 
-            // Kleinste Überschneidung in x und y finden (für Push-out Richtung)
+            // Kleinste Ãœberschneidung in x und y finden (fÃ¼r Push-out Richtung)
             float minOverlapX = (overlapLeft < overlapRight) ? overlapLeft : -overlapRight;
             float minOverlapY = (overlapTop < overlapBottom) ? overlapTop : -overlapBottom;
 
-            // Korrigiere die Position entlang der Richtung mit dem kleineren Überlappungswert
+            // Korrigiere die Position entlang der Richtung mit dem kleineren Ãœberlappungswert
             if (std::abs(minOverlapX) < std::abs(minOverlapY)) {
                 // Korrigiere horizontal
                 player.move(-minOverlapX, 0);
@@ -395,18 +496,19 @@ void Game::updateGame() {
     player.setRotation(playerRotation - 90);
 
     for (auto& enemy : enemies) {
-        enemy->update(deltaTime, player.getPosition());
+        enemy.update(deltaTime, player.getPosition());
     }
     for (auto& bullet : bullets) 
     {
         bullet.update(deltaTime);
     }
     
-    for (auto& enemy : enemies) {
-        enemy->update(deltaTime, playerPos);
-        if (enemy->canShoot(deltaTime)) {
-            bullets.push_back(enemy->shoot(enemybulletTexture));
-            bullets.push_back(Bullet(enemy->getPosition(), enemy->getRotation(), enemybulletTexture, BulletOwner::Enemy));
+    for (Enemy& enemy : enemies) {
+        enemy.update(deltaTime, playerPos);
+
+        if (enemy.canShoot(deltaTime)) {
+            bullets.push_back(enemy.shoot(enemybulletTexture));
+            bullets.push_back(Bullet(enemy.getPosition(), enemy.getRotation(), enemybulletTexture, BulletOwner::Enemy));
             soundEngine.PlayShootSound(); // shoot sound for enemy
         }
     }
@@ -415,6 +517,35 @@ void Game::updateGame() {
         bullet.update(deltaTime);
     }
 
+    // enemy spawn logic
+    if (currentWave <= maxWaves && waveSpawnClock.getElapsedTime().asSeconds() >= waveInterval)
+    {
+        for (int i = 0; i < currentWave; ++i) {
+            sf::Vector2f spawnPos(
+                100 + std::rand() % (screenWidth - 200),
+                100 + std::rand() % (screenHeight - 200)
+            );
+            enemies.emplace_back(spawnPos, enemyTexture);
+        }
+        ++currentWave;
+        waveCounterText.setString("Wave " + std::to_string(currentWave));
+        soundEngine.PlayEnemyWaveSound();
+        waveSpawnClock.restart();
+    }
+
+    if (endlessModeActive && enemies.empty() && waveSpawnClock.getElapsedTime().asSeconds() >= waveInterval) {
+        for (int i = 0; i < maxWaves; ++i) {
+            sf::Vector2f spawnPos(
+                100 + std::rand() % (screenWidth - 200),
+                100 + std::rand() % (screenHeight - 200)
+            );
+            enemies.emplace_back(spawnPos, enemyTexture);
+        }
+        soundEngine.PlayEnemyWaveSound();
+        ++currentWave;
+        waveCounterText.setString("Wave " + std::to_string(currentWave));
+        waveSpawnClock.restart();
+    }
 
     //bullet-enemy collisions
     for (auto& enemy : enemies)
@@ -423,12 +554,12 @@ void Game::updateGame() {
         {
             if (bullet.getOwner() == BulletOwner::Player)
             {
-                if (enemy->getPosition().x < bullet.getShape().getPosition().x + enemy->getSize().x / 2 &&
-                    enemy->getPosition().x + enemy->getSize().x / 2 > bullet.getShape().getPosition().x &&
-                    enemy->getPosition().y < bullet.getShape().getPosition().y + enemy->getSize().y / 2 &&
-                    enemy->getPosition().y + enemy->getSize().y / 2 > bullet.getShape().getPosition().y)
+                if (enemy.getPosition().x < bullet.getShape().getPosition().x + enemy.getSize().x / 2 &&
+                    enemy.getPosition().x + enemy.getSize().x / 2 > bullet.getShape().getPosition().x &&
+                    enemy.getPosition().y < bullet.getShape().getPosition().y + enemy.getSize().y / 2 &&
+                    enemy.getPosition().y + enemy.getSize().y / 2 > bullet.getShape().getPosition().y)
                 {
-                    enemy->takeDamage();
+                    enemy.takeDamage();
                     bullet = bullets.back();
                     bullets.pop_back();
                     break;
@@ -443,7 +574,7 @@ void Game::updateGame() {
 
 	// REMOVE DEAD ENEMIES AND PLAY SOUND, YAY
     for (auto it = enemies.begin(); it != enemies.end(); ) {
-        if ((*it)->isDead()) {
+        if (it->isDead()) {
             soundEngine.PlayEnemyDeathSound();
             it = enemies.erase(it);
         }
@@ -452,6 +583,21 @@ void Game::updateGame() {
         }
     }
 
+    bullets.erase(std::remove_if(bullets.begin(), bullets.end(),
+        [this](const Bullet& b) {
+            return b.isOffscreen(window.getSize().x, window.getSize().y);
+        }), bullets.end());
+
+    sf::Time elapsed = gameTimerClock.getElapsedTime();
+    int minutes = static_cast<int>(elapsed.asSeconds()) / 60;
+    int seconds = static_cast<int>(elapsed.asSeconds()) % 60;
+
+    char buffer[16];
+    std::snprintf(buffer, sizeof(buffer), "%02d:%02d", minutes, seconds);
+    gameTimerText.setString(buffer);
+
+    objectRotation += 30.0f * deltaTime;
+    star.setRotation(-objectRotation);
 }
 
 void Game::renderGame() {
@@ -459,19 +605,32 @@ void Game::renderGame() {
     window.draw(star);
     window.draw(player);
     window.draw(gameTimerText);
+    window.draw(waveCounterText);
 
+	if (endlessModeActive) // display endless mode text if active
+    {
+        sf::Text endlessText;
+        endlessText.setFont(font);
+        endlessText.setString("Endless Mode Activated");
+        endlessText.setCharacterSize(24);
+        endlessText.setFillColor(sf::Color::Red);
+        endlessText.setPosition(20.f, 60.f); // Just below the timer
+        window.draw(endlessText);
+    }
+
+
+
+    for (const auto& enemy : enemies) {
+        enemy.render(window);
+    }
+    for (auto& bullet : bullets) {
+        bullet.render(window);
+    }
     for (auto& planet : planets)
         planet.render(window);
 
     for (auto& obstacle : obstacles)
         obstacle.render(window);
-
-    for (auto& bullet : bullets)
-        bullet.render(window);
-
-    for (auto& enemy : enemies)
-        enemy->render(window);
-
 
     sf::Vertex velocityLine[] = {
         sf::Vertex(player.getPosition(), sf::Color::Green),

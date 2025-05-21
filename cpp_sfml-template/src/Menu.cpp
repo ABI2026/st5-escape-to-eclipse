@@ -6,7 +6,7 @@ const int screenWidth = 1920;
 const int screenHeight = 1080;
 
 Menu::Menu(sf::RenderWindow& window) : window(window) {
-    if (!font.loadFromFile("C:/Windows/Fonts/arial.ttf")) {
+    if (!font.loadFromFile("Font/QuinqueFive.ttf")) {
         std::cerr << "Error: Could not load font!" << std::endl;
     }
 

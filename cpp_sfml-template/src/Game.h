@@ -9,6 +9,9 @@
 #include "SettingsMenu.h"
 #include "Bullet.h"
 
+#include "Enemy2.h"
+#include "SoundEngine.h"
+
 class Game {
 public:
     enum GameState { MAIN_MENU, GAME_PLAY, GAME_PAUSED, SETTINGS, EXIT };
@@ -16,7 +19,11 @@ public:
     Game(sf::RenderWindow& window);
     void run();
 
+    Game(sf::RenderWindow& window, SoundEngine& soundEngine);
+    void run();
+
 private:
+ 
     void update();
     void render();
     void initGame();
@@ -30,6 +37,9 @@ private:
     float sinDeg(float degrees);
     float cosDeg(float degrees);
 
+
+    SoundEngine& soundEngine;
+ 
     sf::RenderWindow& window;
     GameState state;
     sf::Clock shootCooldownClock;
@@ -41,12 +51,12 @@ private:
 
     sf::Sprite player;
     sf::Texture playerTextures[4];
-
     sf::CircleShape star;
     sf::Texture starTexture;
     sf::Texture bulletTexture;
+    sf::Texture enemybulletTexture;
     std::vector<Bullet> bullets;
-
+    
     sf::Vector2f velocity;
     sf::Vector2f starPos;
 
@@ -64,6 +74,51 @@ private:
     const float bounceDamping = 0.7f;
 
     sf::RectangleShape borderRect;
+
+    std::vector<Enemy> enemies;
+    sf::Texture enemyTexture;
+
+    sf::Font font;
+    sf::Text gameTimerText;
+    sf::Clock gameTimerClock;
+
+    int currentWave = 1;
+    const int maxWaves = 7;
+    sf::Clock waveSpawnClock;
+    float waveInterval = 15.0f;
+    bool endlessModeActive = false; // f�r den output unterm timer
+    sf::Text waveCounterText;
+//    
+//   
+//    bool boosting;
+//   
+//    
+//  
+//   
+//
+//    const float rotationSpeed = 180.0f;
+//    const float thrust = 50.0;
+//    const float boostMultiplier = 1.5f;
+//    const float damping = 0.98f;
+//    const float gravitationStrength = 500.0f;
+//    const float starMass = 1000.0f;
+//    const float minDistance = 20.0f;
+//
+//    const float borderPadding = 0.0f;
+//    const float bounceDamping = 0.0f;
+//
+//    
+//    
+//   
+//    
+//
+//public:
+//    Game(sf::RenderWindow& window);
+//    void run();
+//    
+//    
+//    
+
 };
 
 #endif
