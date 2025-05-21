@@ -12,7 +12,7 @@ F/M: Shooting
 N: Play/Pause Music (In-Game)
 
 E: Endless Mode
-(Beat all 7 Waves first!)
+(Beat all 8 Waves first!)
 
 ### Prerequisites: 
 
