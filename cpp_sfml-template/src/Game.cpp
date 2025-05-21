@@ -224,7 +224,7 @@ void Game::initGame() {
 
     gameTimerText.setFont(font); 
 	gameTimerText.setCharacterSize(28); // größe Text
-    gameTimerText.setFillColor(sf::Color::White); //weiß ggrrrrrr
+    gameTimerText.setFillColor(sf::Color::White); //weiß grrrrrrr
     gameTimerText.setPosition(20.f, 20.f); //oben links
 
     waveCounterText.setFont(font);
