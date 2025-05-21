@@ -80,8 +80,9 @@ private:
     int currentWave = 1;
     const int maxWaves = 7;
     sf::Clock waveSpawnClock;
-    float waveInterval = 19.0f;
+    float waveInterval = 1.0f;
     bool endlessModeActive = false; // für den output unterm timer
+    sf::Text waveCounterText;
 //    
 //   
 //    bool boosting;
