@@ -2,8 +2,11 @@
 #include"Bullet.h"
 #include <iostream>
 #include <cmath>
+#include "Planet.h"
+#include "Obstacle.h"
+#include "WaveManager.h"
 
-const int screenWidth = 1920;
+const int screenWidth = 1920; 
 const int screenHeight = 1080;
 
 const float rotationSpeed = 180.0f;
@@ -70,9 +73,11 @@ void Game::render() {
         mainMenu.render();
         break;
     case GAME_PLAY:
+        window.clear();
         renderGame();
         break;
     case GAME_PAUSED:
+        window.clear();
         renderGame();
         pauseMenu.render();
         break;
@@ -135,34 +140,27 @@ void Game::handleSettingsMenuInput() {
 
 void Game::initGame() {
     std::vector<std::string> textureFiles = {
-        "Graphics/PlayerStand.png",
-        "Graphics/PlayerFlight.png",
-        "Graphics/PlayerShotStand.png",
-        "Graphics/PlayerShotFlight.png"
+        "Graphics/PlayerStand.png", "Graphics/PlayerFlight.png",
+        "Graphics/PlayerShotStand.png", "Graphics/PlayerShotFlight.png"
     };
 
     for (size_t i = 0; i < textureFiles.size(); ++i) {
         if (!playerTextures[i].loadFromFile(textureFiles[i])) {
             std::cerr << "Error: Could not load " << textureFiles[i] << std::endl;
-            state = EXIT;
-            return;
+            state = EXIT; return;
         }
-        player.setTexture(playerTextures[0]);
-        sf::Vector2u texSize = playerTextures[0].getSize();
-        player.setOrigin(texSize.x / 2.0f, texSize.y / 2.0f);
     }
 
+    player.setTexture(playerTextures[0]);
+    player.setOrigin(playerTextures[0].getSize().x / 2.0f, playerTextures[0].getSize().y / 2.0f);
 
-    if (!starTexture.loadFromFile("Graphics/star.png")) {
-        std::cerr << "Error: Could not load star texture!" << std::endl;
-        state = EXIT;
-        return;
-    }
-    
-    if (!bulletTexture.loadFromFile("Graphics/PlayerShot.png")) {
-        std::cerr << "Error: Could not load bullet texture!" << std::endl;
-        state = EXIT;
-        return;
+    font.loadFromFile("Font/QuinqueFive.ttf");
+    starTexture.loadFromFile("Graphics/star.png");
+    bulletTexture.loadFromFile("Graphics/PlayerShot.png");
+    enemybulletTexture.loadFromFile("Graphics/EnemyShoot.png");
+    if (!enemyTexture.loadFromFile("Graphics/EnemyFlight.png")) {
+        std::cerr << "Error: Could not load enemy texture" << std::endl;
+        state = EXIT; return;
     }
 
 
@@ -171,25 +169,49 @@ void Game::initGame() {
 
     star.setRadius(50);
     star.setOrigin(50, 50);
-    starPos = sf::Vector2f(screenWidth / 2, screenHeight / 2);
-    star.setPosition(starPos);
+    star.setPosition(screenWidth / 2, screenHeight / 2);
     star.setTexture(&starTexture);
+    starPos = star.getPosition();
 
-    borderRect.setSize(sf::Vector2f(screenWidth - 2 * borderPadding, screenHeight - 2 * borderPadding));
-    borderRect.setPosition(borderPadding, borderPadding);
+    borderRect.setSize(sf::Vector2f(screenWidth - 20, screenHeight - 20));
+    borderRect.setPosition(10, 10);
     borderRect.setFillColor(sf::Color::Transparent);
     borderRect.setOutlineColor(sf::Color(100, 100, 255, 100));
     borderRect.setOutlineThickness(2.0f);
 
+    gameTimerText.setFont(font);
+    gameTimerText.setCharacterSize(28);
+    gameTimerText.setFillColor(sf::Color::White);
+    gameTimerText.setPosition(20.f, 20.f);
+
+    planets = {
+        { sf::Vector2f(960, 540), 3000.0f, 70.0f, starTexture },
+        { sf::Vector2f(300, 300), 2000.0f, 60.0f, starTexture },
+        { sf::Vector2f(1600, 800), 2500.0f, 65.0f, starTexture }
+    };
+    obstacles = {
+        { sf::Vector2f(500, 500), sf::Vector2f(100, 100) },
+        { sf::Vector2f(1000, 300), sf::Vector2f(80, 120) },
+        { sf::Vector2f(1400, 700), sf::Vector2f(150, 50) }
+    };
+
+    waveManager = WaveManager();
+    waveManager.addWave(Wave({
+        { 0.f, sf::Vector2f(400, 400), 0 },
+        { 2.f, sf::Vector2f(800, 200), 0 },
+        { 4.f, sf::Vector2f(1200, 700), 0 },
+        }));
+
+    enemies.clear();
+    currentWave = 1;
+    waveSpawnClock.restart();
+
     playerRotation = 0;
     objectRotation = 0.1f;
-    velocity = sf::Vector2f(0.0f, 0.0f);
-    boosting = false;
-    isShooting = false;
-    isMoving = false;
-
+    velocity = sf::Vector2f(0.f, 0.f);
+    boosting = isMoving = isShooting = false;
     deltaClock.restart();
-    deltaTime = 0.0f;
+    deltaTime = 0.f;
 }
 
 void Game::handleGameplayInput() {
@@ -265,6 +287,62 @@ void Game::updateGame() {
         boosting = false;
     }
 
+    sf::Vector2f totalGravity(0.f, 0.f);
+    for (const auto& planet : planets) {
+        totalGravity += planet.calculateGravity(player.getPosition()) * deltaTime;
+    }
+    velocity += totalGravity;
+
+    if (currentWave <= maxWaves && waveSpawnClock.getElapsedTime().asSeconds() >= waveInterval) {
+        for (int i = 0; i < currentWave; ++i) {
+            sf::Vector2f spawnPos(
+                100 + std::rand() % (screenWidth - 200),
+                100 + std::rand() % (screenHeight - 200)
+            );
+            enemies.push_back(std::make_unique<Enemy>(spawnPos, enemyTexture));
+        }
+        ++currentWave;
+        waveSpawnClock.restart();
+    }
+
+
+
+    for (const auto& obstacle : obstacles) {
+        if (obstacle.checkCollision(player.getGlobalBounds())) {
+            // Berechne Überschneidung (Überlappungsbereich)
+            sf::FloatRect playerBounds = player.getGlobalBounds();
+            sf::FloatRect obstacleBounds = obstacle.getBounds();
+
+            // Wie tief ist die Überschneidung in x und y?
+            float overlapLeft = (playerBounds.left + playerBounds.width) - obstacleBounds.left;
+            float overlapRight = (obstacleBounds.left + obstacleBounds.width) - playerBounds.left;
+            float overlapTop = (playerBounds.top + playerBounds.height) - obstacleBounds.top;
+            float overlapBottom = (obstacleBounds.top + obstacleBounds.height) - playerBounds.top;
+
+            // Kleinste Überschneidung in x und y finden (für Push-out Richtung)
+            float minOverlapX = (overlapLeft < overlapRight) ? overlapLeft : -overlapRight;
+            float minOverlapY = (overlapTop < overlapBottom) ? overlapTop : -overlapBottom;
+
+            // Korrigiere die Position entlang der Richtung mit dem kleineren Überlappungswert
+            if (std::abs(minOverlapX) < std::abs(minOverlapY)) {
+                // Korrigiere horizontal
+                player.move(-minOverlapX, 0);
+                velocity.x = -velocity.x * bounceDamping;  // Bounce horizontal
+            }
+            else {
+                // Korrigiere vertikal
+                player.move(0, -minOverlapY);
+                velocity.y = -velocity.y * bounceDamping;  // Bounce vertikal
+            }
+        }
+    }
+
+
+    // Update Wellenlogik
+    waveManager.update(deltaTime, enemies, enemyTexture);
+
+
+
     velocity *= damping;
 
     sf::Vector2f directionToStar = starPos - player.getPosition();
@@ -316,13 +394,58 @@ void Game::updateGame() {
 
     player.setRotation(playerRotation - 90);
 
-    objectRotation += 30.0f * deltaTime;
-    star.setRotation(-objectRotation);
+    for (auto& enemy : enemies) {
+        enemy->update(deltaTime, player.getPosition());
+    }
+    for (auto& bullet : bullets) 
+    {
+        bullet.update(deltaTime);
+    }
     
-    for (auto it = bullets.begin(); it != bullets.end();) {
-        it->update(deltaTime);
-        if (it->isOffscreen(screenWidth, screenHeight)) {
-            it = bullets.erase(it);
+    for (auto& enemy : enemies) {
+        enemy->update(deltaTime, playerPos);
+        if (enemy->canShoot(deltaTime)) {
+            bullets.push_back(enemy->shoot(enemybulletTexture));
+            bullets.push_back(Bullet(enemy->getPosition(), enemy->getRotation(), enemybulletTexture, BulletOwner::Enemy));
+            soundEngine.PlayShootSound(); // shoot sound for enemy
+        }
+    }
+
+    for (auto& bullet : bullets) {
+        bullet.update(deltaTime);
+    }
+
+
+    //bullet-enemy collisions
+    for (auto& enemy : enemies)
+    {
+        for (auto& bullet : bullets)
+        {
+            if (bullet.getOwner() == BulletOwner::Player)
+            {
+                if (enemy->getPosition().x < bullet.getShape().getPosition().x + enemy->getSize().x / 2 &&
+                    enemy->getPosition().x + enemy->getSize().x / 2 > bullet.getShape().getPosition().x &&
+                    enemy->getPosition().y < bullet.getShape().getPosition().y + enemy->getSize().y / 2 &&
+                    enemy->getPosition().y + enemy->getSize().y / 2 > bullet.getShape().getPosition().y)
+                {
+                    enemy->takeDamage();
+                    bullet = bullets.back();
+                    bullets.pop_back();
+                    break;
+                }
+            }
+        }
+    }
+
+    // Remove dead enemies
+  //  enemies.erase(std::remove_if(enemies.begin(), enemies.end(),
+  //      [](const Enemy& e) { return e.isDead(); }), enemies.end());
+
+	// REMOVE DEAD ENEMIES AND PLAY SOUND, YAY
+    for (auto it = enemies.begin(); it != enemies.end(); ) {
+        if ((*it)->isDead()) {
+            soundEngine.PlayEnemyDeathSound();
+            it = enemies.erase(it);
         }
         else {
             ++it;
@@ -332,13 +455,22 @@ void Game::updateGame() {
 }
 
 void Game::renderGame() {
-    window.clear(sf::Color(10, 10, 30));
     window.draw(borderRect);
     window.draw(star);
     window.draw(player);
-    for (auto& bullet : bullets) {
+    window.draw(gameTimerText);
+
+    for (auto& planet : planets)
+        planet.render(window);
+
+    for (auto& obstacle : obstacles)
+        obstacle.render(window);
+
+    for (auto& bullet : bullets)
         bullet.render(window);
-    }
+
+    for (auto& enemy : enemies)
+        enemy->render(window);
 
 
     sf::Vertex velocityLine[] = {
