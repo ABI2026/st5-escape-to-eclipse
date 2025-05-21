@@ -10,3 +10,7 @@ W/A/S/D: Movement
 F/M: Shooting
 
 N: Play/Pause Music (In-Game)
+
+### Prerequisites: 
+
+OpenAL: https://www.openal.org/downloads/oalinst.zip
