@@ -29,6 +29,7 @@ Game::Game(sf::RenderWindow& window, SoundEngine& soundEngine)
     settingsMenu(window, soundEngine) {
 
     initGame();
+    mainMenu.setHighscore(highscore);
 }
 
 void Game::run() {
@@ -158,7 +159,7 @@ void Game::initGame() {
         "Graphics/PlayerShotStand.png",
         "Graphics/PlayerShotFlight.png"
     };
-
+    loadHighscore();
     for (size_t i = 0; i < textureFiles.size(); ++i) {
         if (!playerTextures[i].loadFromFile(textureFiles[i])) {
             std::cerr << "Error: Could not load " << textureFiles[i] << std::endl;
@@ -243,6 +244,15 @@ void Game::initGame() {
     sf::FloatRect enemyTextRect = enemyCounterText.getLocalBounds();
     enemyCounterText.setOrigin(enemyTextRect.width, 0);
     enemyCounterText.setPosition(waveCounterText.getPosition().x, waveCounterText.getPosition().y + waveCounterText.getCharacterSize() + 8.f);     // Position it just below the wave counter
+
+    score = 0;
+    scoreText.setFont(font);
+    scoreText.setCharacterSize(28);
+    scoreText.setFillColor(sf::Color::White);
+    scoreText.setString("Score: 0");
+    sf::FloatRect scoreRect = scoreText.getLocalBounds();
+    scoreText.setOrigin(scoreRect.width / 2.f, 0);
+    scoreText.setPosition(window.getSize().x / 2.f, 20.f);
 
     playerRotation = 0;
     objectRotation = 0.1f;
@@ -565,10 +575,16 @@ void Game::updateGame() {
   //  enemies.erase(std::remove_if(enemies.begin(), enemies.end(),
   //      [](const Enemy& e) { return e.isDead(); }), enemies.end());
 
-	// REMOVE DEAD ENEMIES AND PLAY SOUND, YAY
+	// REMOVE DEAD ENEMIES AND PLAY SOUND, YAY, and count score now
     for (auto it = enemies.begin(); it != enemies.end(); ) {
         if (it->isDead()) {
             soundEngine.PlayEnemyDeathSound();
+            score += 10;
+            scoreText.setString("Score: " + std::to_string(score));
+            
+            sf::FloatRect scoreRect = scoreText.getLocalBounds(); // Re-center after text change
+            scoreText.setOrigin(scoreRect.width / 2.f, 0);
+            scoreText.setPosition(window.getSize().x / 2.f, 20.f);
             it = enemies.erase(it);
         }
         else {
@@ -597,6 +613,12 @@ void Game::updateGame() {
     sf::FloatRect enemyTextRect = enemyCounterText.getLocalBounds();
     enemyCounterText.setOrigin(enemyTextRect.width, 0);
     enemyCounterText.setPosition(waveCounterText.getPosition().x, waveCounterText.getPosition().y + waveCounterText.getCharacterSize() + 8.f);
+
+    if (score > highscore) {
+        highscore = score;
+        saveHighscore();
+        mainMenu.setHighscore(highscore);
+    }
 }
 
 void Game::renderGame() {
@@ -606,6 +628,7 @@ void Game::renderGame() {
     window.draw(gameTimerText);
     window.draw(waveCounterText);
     window.draw(enemyCounterText);
+    window.draw(scoreText);
 
 	if (endlessModeActive) // display endless mode text if active
     {
@@ -657,4 +680,22 @@ float Game::sinDeg(float degrees) {
 
 float Game::cosDeg(float degrees) {
     return std::cos(degrees * 3.14159265f / 180.0f);
+}
+
+void Game::loadHighscore() {
+    std::ifstream file(highscoreFile, std::ios::binary);
+    if (file.is_open()) {
+        file.read(reinterpret_cast<char*>(&highscore), sizeof(highscore));
+        file.close();
+    } else {
+        highscore = 0;
+    }
+}
+
+void Game::saveHighscore() {
+    std::ofstream file(highscoreFile, std::ios::binary | std::ios::trunc);
+    if (file.is_open()) {
+        file.write(reinterpret_cast<const char*>(&highscore), sizeof(highscore));
+        file.close();
+    }
 }

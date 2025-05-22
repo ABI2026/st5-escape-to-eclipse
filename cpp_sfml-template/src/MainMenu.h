@@ -10,6 +10,9 @@ public:
     MainMenu(sf::RenderWindow& window);
     void render() override;
     int handleInput() override;
+    void setHighscore(int highscore);
+private: 
+	int currentHighscore;
 };
 
 #endif

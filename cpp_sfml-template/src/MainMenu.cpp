@@ -48,6 +48,19 @@ void MainMenu::render() {
         screenHeight / 4.f - titleText.getGlobalBounds().height / 2.f
     );
     window.draw(titleText);
+
+    // Highscore text
+    sf::Text highscoreText;
+    highscoreText.setFont(font);
+    highscoreText.setCharacterSize(36);
+    highscoreText.setFillColor(sf::Color(255, 215, 0)); // Gold color
+    highscoreText.setString("Highscore: " + std::to_string(currentHighscore));
+    highscoreText.setPosition(
+        screenWidth / 2.f - highscoreText.getLocalBounds().width / 2.f,
+        titleText.getPosition().y + titleText.getGlobalBounds().height + 20.f
+    );
+    window.draw(highscoreText);
+
 }
 
 int MainMenu::handleInput() {
@@ -61,4 +74,9 @@ int MainMenu::handleInput() {
         return EXIT;
     }
     return NONE;
+}
+
+void MainMenu::setHighscore(int highscore)
+{
+    currentHighscore = highscore;
 }

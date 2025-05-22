@@ -13,6 +13,7 @@
 #include "Obstacle.h"
 #include "Planet.h"
 #include "WaveManager.h"
+#include <fstream>
 
 class Game {
 public:
@@ -84,7 +85,7 @@ private:
     int currentWave = 1;
     const int maxWaves = 7;
     sf::Clock waveSpawnClock;
-    float waveInterval = 15.0f;
+    float waveInterval = 9.2f;
     bool endlessModeActive = false; // f�r den output unterm timer
     sf::Text waveCounterText;
 
@@ -92,6 +93,14 @@ private:
     std::vector<Obstacle> obstacles;
 
     sf::Text enemyCounterText;
+
+    int score = 0;
+	sf::Text scoreText;
+
+    int highscore = 0;
+    const std::string highscoreFile = "highscore.st5";
+    void loadHighscore();
+    void saveHighscore();
 //    
 //   
 //    bool boosting;
