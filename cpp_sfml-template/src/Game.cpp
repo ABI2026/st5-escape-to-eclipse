@@ -245,6 +245,15 @@ void Game::initGame() {
     enemyCounterText.setOrigin(enemyTextRect.width, 0);
     enemyCounterText.setPosition(waveCounterText.getPosition().x, waveCounterText.getPosition().y + waveCounterText.getCharacterSize() + 8.f);     // Position it just below the wave counter
 
+    playerHealth = 10;
+    healthText.setFont(font);
+    healthText.setCharacterSize(28);
+    healthText.setFillColor(sf::Color::Green);
+    healthText.setString("Health: 10");
+    sf::FloatRect healthRect = healthText.getLocalBounds();
+    healthText.setOrigin(0, 0);
+    healthText.setPosition(20.f, window.getSize().y - healthText.getLocalBounds().height - 20.f); //unten links
+
     score = 0;
     scoreText.setFont(font);
     scoreText.setCharacterSize(28);
@@ -530,6 +539,8 @@ void Game::updateGame() {
             );
             enemies.emplace_back(spawnPos, enemyTexture);
         }
+        playerHealth += 2; // Add 2 health
+        healthText.setString("Health: " + std::to_string(playerHealth)); // Update counter
         ++currentWave;
         waveCounterText.setString("Wave " + std::to_string(currentWave));
         soundEngine.PlayEnemyWaveSound();
@@ -544,6 +555,8 @@ void Game::updateGame() {
             );
             enemies.emplace_back(spawnPos, enemyTexture);
         }
+        playerHealth += 2; // Add 2 health
+        healthText.setString("Health: " + std::to_string(playerHealth)); // Update counter
         soundEngine.PlayEnemyWaveSound();
         ++currentWave;
         waveCounterText.setString("Wave " + std::to_string(currentWave));
@@ -570,6 +583,27 @@ void Game::updateGame() {
             }
         }
     }
+
+    //player collision with enemy bullets
+    for (auto it = bullets.begin(); it != bullets.end(); ) {
+        if (it->getOwner() == BulletOwner::Enemy) {
+            if (player.getGlobalBounds().intersects(it->getShape().getGlobalBounds())) {
+                playerHealth--;
+                healthText.setString("Health: " + std::to_string(playerHealth));
+                it = bullets.erase(it);
+                if (playerHealth <= 0) {
+					state = MAIN_MENU; //return to main menu if player dies
+                    initGame();
+                    mainMenu.setHighscore(highscore);
+                    return;
+                }
+                continue;
+            }
+        }
+        ++it;
+    }
+
+
 
     // Remove dead enemies
   //  enemies.erase(std::remove_if(enemies.begin(), enemies.end(),
@@ -629,6 +663,7 @@ void Game::renderGame() {
     window.draw(waveCounterText);
     window.draw(enemyCounterText);
     window.draw(scoreText);
+    window.draw(healthText);
 
 	if (endlessModeActive) // display endless mode text if active
     {

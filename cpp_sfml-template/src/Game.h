@@ -101,6 +101,10 @@ private:
     const std::string highscoreFile = "highscore.st5";
     void loadHighscore();
     void saveHighscore();
+
+
+    int playerHealth = 10;
+    sf::Text healthText;
 //    
 //   
 //    bool boosting;
