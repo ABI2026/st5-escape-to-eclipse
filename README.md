@@ -17,3 +17,4 @@ E: Endless Mode
 ### Prerequisites: 
 
 OpenAL: https://www.openal.org/downloads/oalinst.zip
+^ wenn das Spiel nicht läuft, bitte das installieren.
