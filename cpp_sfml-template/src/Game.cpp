@@ -237,7 +237,7 @@ void Game::initGame() {
     waveCounterText.setPosition(window.getSize().x-40 - margin, margin);
     
     enemyCounterText.setFont(font);
-    enemyCounterText.setCharacterSize(24);
+    enemyCounterText.setCharacterSize(28);
     enemyCounterText.setFillColor(sf::Color::White);
     enemyCounterText.setString("Enemies: 0");
     sf::FloatRect enemyTextRect = enemyCounterText.getLocalBounds();

@@ -43,16 +43,19 @@ sf::Vector2f Enemy::getSize() const
 {
     return enemyShape.getSize();
 }
-bool Enemy::canShoot(float deltaTime) {
+bool Enemy::canShoot(float deltaTime)
+{
     timeSinceLastShot += deltaTime;
-    if (timeSinceLastShot >= shootCooldown) {
+    if (timeSinceLastShot >= shootCooldown)
+    {
         timeSinceLastShot = 0.0f;
         return true;
     }
     return false;
 }
 
-Bullet Enemy::shoot(const sf::Texture& bulletTexture) {
+Bullet Enemy::shoot(const sf::Texture& bulletTexture)
+{
     return Bullet(enemyShape.getPosition(), enemyShape.getRotation(), bulletTexture, BulletOwner::Enemy);
 }
 
@@ -72,11 +75,13 @@ void Enemy::moveTowardsPlayer(const sf::Vector2f& playerPosition, float deltaTim
 }
 
 
-void Enemy::takeDamage() {
+void Enemy::takeDamage()
+{
     health--;
 }
 
-bool Enemy::isDead() const {
+bool Enemy::isDead() const
+{
     return health <= 0;
 }
 float Enemy::getRotation() const
