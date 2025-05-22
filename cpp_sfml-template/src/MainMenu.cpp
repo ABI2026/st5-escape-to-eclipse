@@ -57,7 +57,7 @@ void MainMenu::render() {
     highscoreText.setString("Highscore: " + std::to_string(currentHighscore));
     highscoreText.setPosition(
         screenWidth / 2.f - highscoreText.getLocalBounds().width / 2.f,
-        titleText.getPosition().y + titleText.getGlobalBounds().height + 20.f
+        titleText.getPosition().y+50 + titleText.getGlobalBounds().height + 20.f
     );
     window.draw(highscoreText);
 
