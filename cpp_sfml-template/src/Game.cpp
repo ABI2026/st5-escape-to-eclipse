@@ -103,6 +103,7 @@ void Game::handleMainMenuInput() {
     switch (option) {
     case MainMenu::START:
         state = GAME_PLAY;
+		waveSpawnClock.restart(); // Reset wave spawn clock when game opens
         break;
     case MainMenu::SETTINGS:
         state = SETTINGS;
@@ -539,7 +540,7 @@ void Game::updateGame() {
             );
             enemies.emplace_back(spawnPos, enemyTexture);
         }
-        playerHealth += 3; // Add 2 health
+        playerHealth += 3; // Add 3 health
         healthText.setString("Health: " + std::to_string(playerHealth)); // Update counter
         ++currentWave;
         waveCounterText.setString("Wave " + std::to_string(currentWave));
