@@ -12,7 +12,7 @@
 #include "SoundEngine.h"
 #include "Obstacle.h"
 #include "Planet.h"
-#include "WaveManager.h"
+//#include "WaveManager.h"
 #include <fstream>
 
 class Game {
@@ -85,11 +85,11 @@ private:
     int currentWave = 1;
     const int maxWaves = 7;
     sf::Clock waveSpawnClock;
-    float waveInterval = 9.2f;
+    float waveInterval = 12.4f;
     bool endlessModeActive = false; // f�r den output unterm timer
     sf::Text waveCounterText;
 
-    std::vector<Planet> planets; // Declare planets as a vector of Planet objects
+    std::vector<Planet> planets; // Declare planets as a vector of Planet objects for it to work, after merge
     std::vector<Obstacle> obstacles;
 
     sf::Text enemyCounterText;
@@ -103,7 +103,7 @@ private:
     void saveHighscore();
 
 
-    int playerHealth = 10;
+    int playerHealth = 20;
     sf::Text healthText;
 //    
 //   

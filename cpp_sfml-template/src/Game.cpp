@@ -1,10 +1,10 @@
 #include "Game.h"
-#include"Bullet.h"
+#include "Bullet.h"
 #include <iostream>
 #include <cmath>
 #include "Planet.h"
 #include "Obstacle.h"
-#include "WaveManager.h"
+//#include "WaveManager.h"
 
 const int screenWidth = 1920; 
 const int screenHeight = 1080;
@@ -245,11 +245,11 @@ void Game::initGame() {
     enemyCounterText.setOrigin(enemyTextRect.width, 0);
     enemyCounterText.setPosition(waveCounterText.getPosition().x, waveCounterText.getPosition().y + waveCounterText.getCharacterSize() + 8.f);     // Position it just below the wave counter
 
-    playerHealth = 10;
+    //playerHealth = 100;
     healthText.setFont(font);
     healthText.setCharacterSize(28);
     healthText.setFillColor(sf::Color::Green);
-    healthText.setString("Health: 10");
+    healthText.setString("Health: " + std::to_string(playerHealth));
     sf::FloatRect healthRect = healthText.getLocalBounds();
     healthText.setOrigin(0, 0);
     healthText.setPosition(20.f, window.getSize().y - healthText.getLocalBounds().height - 20.f); //unten links
@@ -539,7 +539,7 @@ void Game::updateGame() {
             );
             enemies.emplace_back(spawnPos, enemyTexture);
         }
-        playerHealth += 2; // Add 2 health
+        playerHealth += 3; // Add 2 health
         healthText.setString("Health: " + std::to_string(playerHealth)); // Update counter
         ++currentWave;
         waveCounterText.setString("Wave " + std::to_string(currentWave));
@@ -555,7 +555,7 @@ void Game::updateGame() {
             );
             enemies.emplace_back(spawnPos, enemyTexture);
         }
-        playerHealth += 2; // Add 2 health
+        playerHealth += 4; // Add 2 health
         healthText.setString("Health: " + std::to_string(playerHealth)); // Update counter
         soundEngine.PlayEnemyWaveSound();
         ++currentWave;
@@ -717,19 +717,24 @@ float Game::cosDeg(float degrees) {
     return std::cos(degrees * 3.14159265f / 180.0f);
 }
 
-void Game::loadHighscore() {
+void Game::loadHighscore()
+{
     std::ifstream file(highscoreFile, std::ios::binary);
     if (file.is_open()) {
         file.read(reinterpret_cast<char*>(&highscore), sizeof(highscore));
         file.close();
-    } else {
+    }
+    else
+    {
         highscore = 0;
     }
 }
 
-void Game::saveHighscore() {
+void Game::saveHighscore()
+{
     std::ofstream file(highscoreFile, std::ios::binary | std::ios::trunc);
-    if (file.is_open()) {
+    if (file.is_open())
+    {
         file.write(reinterpret_cast<const char*>(&highscore), sizeof(highscore));
         file.close();
     }
