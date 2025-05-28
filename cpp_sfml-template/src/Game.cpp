@@ -352,7 +352,7 @@ void Game::handleGameplayInput() {
         }
         isMoving = false;
     }
-    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::F) || sf::Keyboard::isKeyPressed(sf::Keyboard::M))) {
+    if ( (sf::Keyboard::isKeyPressed(sf::Keyboard::F) || sf::Keyboard::isKeyPressed(sf::Keyboard::M)||sf::Mouse::isButtonPressed(sf::Mouse::Left))) {
         if (shootCooldownClock.getElapsedTime().asSeconds() >= shootCooldown) {
             isShooting = true;
 
