@@ -161,6 +161,7 @@
   <ItemGroup>
     <ClCompile Include="src\Bullet.cpp" />
     <ClCompile Include="src\Enemy2.cpp" />
+    <ClCompile Include="src\KeybindsMenu.cpp" />
     <ClCompile Include="src\Obstacle.cpp" />
     <ClCompile Include="src\Planet.cpp" />
     <ClCompile Include="src\SoundEngine.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\Bullet.h" />
     <ClInclude Include="src\Enemy2.h" />
+    <ClInclude Include="src\KeybindsMenu.h" />
     <ClInclude Include="src\Obstacle.h" />
     <ClInclude Include="src\Planet.h" />
     <ClInclude Include="src\SoundEngine.h" />

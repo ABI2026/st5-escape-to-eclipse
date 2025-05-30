@@ -5,7 +5,7 @@
 
 class MainMenu : public Menu {
 public:
-    enum MainMenuOptions { NONE, START, SETTINGS, EXIT };
+    enum MainMenuOptions { NONE, START, SETTINGS, KEYBINDS, EXIT };
 
     MainMenu(sf::RenderWindow& window);
     void render() override;

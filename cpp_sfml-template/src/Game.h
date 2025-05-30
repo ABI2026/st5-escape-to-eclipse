@@ -12,12 +12,13 @@
 #include "SoundEngine.h"
 #include "Obstacle.h"
 #include "Planet.h"
+#include "KeybindsMenu.h"
 //#include "WaveManager.h"
 #include <fstream>
 
 class Game {
 public:
-    enum GameState { MAIN_MENU, GAME_PLAY, GAME_PAUSED, SETTINGS, EXIT };
+    enum GameState { MAIN_MENU, GAME_PLAY, GAME_PAUSED, SETTINGS, KEYBINDS, EXIT };
 
     Game(sf::RenderWindow& window, SoundEngine& soundEngine);
     void run();
@@ -30,6 +31,7 @@ private:
     void handleMainMenuInput();
     void handlePauseMenuInput();
     void handleSettingsMenuInput();
+    void handleKeybindsMenuInput();
     void handleGameplayInput();
     void updateGame();
     void renderGame();
@@ -48,6 +50,7 @@ private:
     MainMenu mainMenu;
     PauseMenu pauseMenu;
     SettingsMenu settingsMenu;
+    KeybindsMenu keybindsMenu;
 
     sf::Sprite player;
     sf::Texture playerTextures[4];

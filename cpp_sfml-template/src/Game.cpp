@@ -26,7 +26,8 @@ Game::Game(sf::RenderWindow& window, SoundEngine& soundEngine)
     state(MAIN_MENU),
     mainMenu(window),
     pauseMenu(window),
-    settingsMenu(window, soundEngine) {
+    settingsMenu(window, soundEngine),
+    keybindsMenu(window) {
 
     initGame();
     mainMenu.setHighscore(highscore);
@@ -64,6 +65,10 @@ void Game::update() {
         settingsMenu.update();
         handleSettingsMenuInput();
         break;
+    case KEYBINDS:
+        keybindsMenu.update();
+        handleKeybindsMenuInput();
+        break;
     default:
         break;
     }
@@ -84,6 +89,10 @@ void Game::render() {
         renderGame();
         pauseMenu.render();
         break;
+	case KEYBINDS:
+        window.clear(sf::Color(30, 30, 30));
+        keybindsMenu.render();
+		break;
     case SETTINGS:
         window.clear(sf::Color(30, 30, 30));
         settingsMenu.render();
@@ -107,6 +116,9 @@ void Game::handleMainMenuInput() {
         break;
     case MainMenu::SETTINGS:
         state = SETTINGS;
+        break;
+    case MainMenu::KEYBINDS:
+        state = KEYBINDS;
         break;
     case MainMenu::EXIT:
         state = EXIT;
@@ -152,6 +164,12 @@ void Game::handleSettingsMenuInput() {
     }
 }
 
+void Game::handleKeybindsMenuInput() {
+    int option = keybindsMenu.handleInput();
+    if (option == KeybindsMenu::BACK) {
+        state = MAIN_MENU;
+    }
+}
 
 void Game::initGame() {
     std::vector<std::string> textureFiles = {

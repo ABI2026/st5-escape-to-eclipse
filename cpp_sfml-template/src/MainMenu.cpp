@@ -31,7 +31,12 @@ MainMenu::MainMenu(sf::RenderWindow& window) : Menu(window) {
     ));
 
     buttons.push_back(std::make_unique<Button>(
-        buttonX, buttonY + 2 * buttonSpacing, buttonWidth, buttonHeight, font, "Exit",
+        buttonX, buttonY + 2 * buttonSpacing, buttonWidth, buttonHeight, font, "Keybinds",
+        sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200)
+    ));
+
+    buttons.push_back(std::make_unique<Button>(
+        buttonX, buttonY+100 + 3 * buttonSpacing, buttonWidth, buttonHeight, font, "Exit", // BITTE NICHT X,Y ÄNDERN GOTT WEIß WIESO SFML EINEN CLICK 10000 MAL WIEDERHOLT (BACK BUTTON IST AUF DER GLEICHEN HÖHE UND WENN MAN BACK DRÜCKT BEI DEN ANDEREN MENÜS DIE ZUM MAIN MENU FÜHREN CLICKT ES DANN AUF SCHEI?E NOCHMALS EXIT)
         sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200)
     ));
 }
@@ -70,8 +75,11 @@ int MainMenu::handleInput() {
     else if (buttons[1]->isClicked()) {
         return SETTINGS;
     }
-    else if (buttons[2]->isClicked()) {
+    else if (buttons[3]->isClicked()) {
         return EXIT;
+    }
+    else if (buttons[2]->isClicked()) {
+        return KEYBINDS;
     }
     return NONE;
 }
