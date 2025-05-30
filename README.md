@@ -7,7 +7,7 @@ In general our game is a space-shooter. Its about colonising planets, getting ne
 
 W/A/S/D: Movement
 
-F/M: Shooting
+F/M/LMB: Shooting
 
 N: Play/Pause Music (In-Game)
 
