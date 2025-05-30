@@ -115,6 +115,7 @@ void Game::handleMainMenuInput() {
 		waveSpawnClock.restart(); // Reset wave spawn clock when game opens
         break;
     case MainMenu::SETTINGS:
+        previousState = state;
         state = SETTINGS;
         break;
     case MainMenu::KEYBINDS:
@@ -140,6 +141,7 @@ void Game::handlePauseMenuInput() {
         deltaClock.restart();
         break;
     case PauseMenu::SETTINGS:
+        previousState = state;
         state = SETTINGS;
         break;
     case PauseMenu::MAIN_MENU:
@@ -160,7 +162,7 @@ void Game::handleSettingsMenuInput() {
         soundEngine.PlaySelectSound(); // Play sound on any selection
     }
     if (option == SettingsMenu::BACK) {
-        state = (state == SETTINGS) ? MAIN_MENU : GAME_PAUSED;
+        state = previousState;
     }
 }
 

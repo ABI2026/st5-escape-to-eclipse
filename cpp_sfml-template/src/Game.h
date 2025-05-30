@@ -44,6 +44,7 @@ private:
  
     sf::RenderWindow& window;
     GameState state;
+    GameState previousState;
     sf::Clock shootCooldownClock;
     float shootCooldown = 0.15f;
 
@@ -88,7 +89,7 @@ private:
     int currentWave = 1;
     const int maxWaves = 7;
     sf::Clock waveSpawnClock;
-    float waveInterval = 12.4f;
+    float waveInterval = 11.2f;
     bool endlessModeActive = false; // f�r den output unterm timer
     sf::Text waveCounterText;
 
