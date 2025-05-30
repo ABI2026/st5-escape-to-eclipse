@@ -4,7 +4,7 @@
 
 SoundEngine::SoundEngine()
 {
-    music.setVolume(70); // Lautstärke auf x
+    music.setVolume(65); // Lautstärke auf x
 }
 
 SoundEngine::~SoundEngine()

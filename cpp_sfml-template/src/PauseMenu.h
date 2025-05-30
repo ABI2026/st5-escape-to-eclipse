@@ -10,6 +10,6 @@ public:
     PauseMenu(sf::RenderWindow& window);
     void render() override;
     int handleInput() override;
-};
+   };
 
 #endif

@@ -13,22 +13,22 @@ PauseMenu::PauseMenu(sf::RenderWindow& window) : Menu(window) {
     float buttonSpacing = 120.f;
 
     buttons.push_back(std::make_unique<Button>(
-        buttonX, buttonY, buttonWidth, buttonHeight, font, "Resume",
+        buttonX-15, buttonY, buttonWidth+30, buttonHeight, font, "Resume",
         sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200)
     ));
 
     buttons.push_back(std::make_unique<Button>(
-        buttonX, buttonY + buttonSpacing, buttonWidth, buttonHeight, font, "Settings",
+        buttonX-15, buttonY+ buttonSpacing, buttonWidth+30, buttonHeight, font, "Settings",
         sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200)
     ));
 
     buttons.push_back(std::make_unique<Button>(
-        buttonX, buttonY + 2 * buttonSpacing, buttonWidth, buttonHeight, font, "Main Menu",
+        buttonX-15, buttonY + 2 * buttonSpacing, buttonWidth+30, buttonHeight, font, "Main Menu",
         sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200)
     ));
 
     buttons.push_back(std::make_unique<Button>(
-        buttonX, buttonY + 3 * buttonSpacing, buttonWidth, buttonHeight, font, "Exit",
+        buttonX-15, buttonY + 3 * buttonSpacing, buttonWidth+30, buttonHeight, font, "Exit",
         sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200)
     ));
 }
